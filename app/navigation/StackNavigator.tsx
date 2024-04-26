@@ -4,7 +4,7 @@ import React from 'react';
 import Login from '../screens/auth/Login';
 import Register from '../screens/auth/Register';
 import OTPVerify from '../screens/auth/OTPVerify';
-import Home from '../screens/home/Home';
+import HomeTabNavigation from './HomeTabNavigation';
 const Stack = createNativeStackNavigator();
 
 const StackNavigator = () => {
@@ -16,7 +16,7 @@ const StackNavigator = () => {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="otp-verify" component={OTPVerify} />
-        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="HomeApp" component={HomeTabNavigation} />
       </Stack.Navigator>
     </NavigationContainer>
   );

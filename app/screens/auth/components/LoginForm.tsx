@@ -35,7 +35,7 @@ const LoginForm = () => {
           text1: response.data.message,
         });
         setTimeout(() => {
-          navigation.navigate('Home');
+          navigation.navigate('HomeApp');
         }, 2000);
       }
 

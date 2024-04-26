@@ -8,9 +8,15 @@
 import React from 'react';
 
 import StackNavigator from './app/navigation/StackNavigator';
+import Toast from 'react-native-toast-message';
 
 function App(): React.JSX.Element {
-  return <StackNavigator />;
+  return (
+    <>
+      <StackNavigator />
+      <Toast />
+    </>
+  );
 }
 
 export default App;

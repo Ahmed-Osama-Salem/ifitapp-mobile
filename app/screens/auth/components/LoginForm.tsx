@@ -5,12 +5,54 @@ import {
   TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  ActivityIndicator,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
+import AuthService from '../../../server/auth/AuthService';
+import Toast from 'react-native-toast-message';
+import {Formik} from 'formik';
+import loginSchema from '../../../helpers/validation/loginSchema';
 
 const LoginForm = () => {
-  const navigation = useNavigation();
+  const navigation: any = useNavigation();
+  const authPromise = new AuthService();
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
+  const loginValues = {
+    email: '',
+    password: '',
+  };
+  const loginUser = async (values: typeof loginValues) => {
+    setIsSubmitting(true);
+    try {
+      const response = await authPromise.LoginService(values);
+      setIsSubmitting(false);
+
+      if (response.data.status === 200) {
+        Toast.show({
+          type: 'success',
+          text1: response.data.message,
+        });
+        setTimeout(() => {
+          navigation.navigate('Home');
+        }, 2000);
+      }
+
+      if (response.status === 401) {
+        setIsSubmitting(false);
+        Toast.show({
+          type: 'error',
+          text1: response.message,
+        });
+      }
+      return response;
+    } catch (error: any) {
+      setIsSubmitting(false);
+
+      return error.response.data;
+    }
+  };
 
   const RegisterNavigation = () => {
     navigation.navigate('Register');
@@ -23,23 +65,64 @@ const LoginForm = () => {
         to i Fit , the first engineering community app
       </Text>
       <View style={styles.inputsContainer}>
-        <TextInput
-          keyboardType="default"
-          placeholder="Email"
-          style={styles.inputStyle}
-        />
-        <TextInput
-          keyboardType="default"
-          placeholder="Password"
-          secureTextEntry={true}
-          style={styles.inputStyle}
-        />
-        <TouchableWithoutFeedback>
-          <Text>Forget my password ?</Text>
-        </TouchableWithoutFeedback>
-        <TouchableOpacity style={styles.authButton}>
-          <Text style={styles.buttonText}>Sign in</Text>
-        </TouchableOpacity>
+        <Formik
+          validationSchema={loginSchema}
+          initialValues={loginValues}
+          onSubmit={loginUser}>
+          {({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            errors,
+            touched,
+          }) => (
+            <View style={{width: '100%', gap: 20}}>
+              <View>
+                <TextInput
+                  keyboardType="default"
+                  placeholder="Email"
+                  style={styles.inputStyle}
+                  placeholderTextColor="#231A16"
+                  value={values.email}
+                  onChangeText={handleChange('email')}
+                  onBlur={handleBlur('email')}
+                />
+                {touched.email && errors.email && (
+                  <Text style={styles.errorText}>{errors.email}</Text>
+                )}
+              </View>
+              <View>
+                <TextInput
+                  keyboardType="default"
+                  placeholder="Password"
+                  secureTextEntry={true}
+                  style={styles.inputStyle}
+                  placeholderTextColor="#231A16"
+                  value={values.password}
+                  onChangeText={handleChange('password')}
+                  onBlur={handleBlur('password')}
+                />
+                {touched.password && errors.password && (
+                  <Text style={styles.errorText}>{errors.password}</Text>
+                )}
+              </View>
+              <TouchableWithoutFeedback>
+                <Text>Forget my password ?</Text>
+              </TouchableWithoutFeedback>
+              <TouchableOpacity
+                style={styles.authButton}
+                disabled={isSubmitting}
+                onPress={handleSubmit as any}>
+                {isSubmitting ? (
+                  <ActivityIndicator />
+                ) : (
+                  <Text style={styles.buttonText}>Sign in</Text>
+                )}
+              </TouchableOpacity>
+            </View>
+          )}
+        </Formik>
         <View style={styles.registerContainer}>
           <Text>Or</Text>
           <TouchableWithoutFeedback onPress={RegisterNavigation}>
@@ -109,5 +192,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     gap: 10,
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 12,
   },
 });

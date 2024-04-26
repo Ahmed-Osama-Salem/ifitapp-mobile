@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,21 +6,29 @@ import {
   TouchableWithoutFeedback,
   TextInput,
   TouchableOpacity,
+  Button,
+  ActivityIndicator,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import AuthService from '../../../server/auth/AuthService';
 import {Formik} from 'formik';
 import registerSchema from '../../../helpers/validation/registerSchema';
+import Toast from 'react-native-toast-message';
 
 const RegisterForm = () => {
   const navigation: any = useNavigation();
   const authPromise = new AuthService();
+  const [registerToggle, setRegisterToggle] = useState<
+    'contact-info' | 'pass-confirm'
+  >('contact-info');
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const registerValues = {
     name: '',
     email: '',
     phone_number: '',
     password: '',
+    confirm_password: '',
   };
 
   const LoginNavigation = () => {
@@ -28,14 +36,31 @@ const RegisterForm = () => {
   };
 
   const registerUser = async (values: typeof registerValues) => {
+    setIsSubmitting(true);
     return authPromise
       .RegisterService(values)
       .then(response => {
+        setIsSubmitting(false);
+
         console.log('response::', response.data.message);
+        if (response.data) {
+          Toast.show({
+            type: 'success',
+            text1: response.data.message,
+          });
+          setTimeout(() => {
+            navigation.navigate('otp-verify');
+          }, 2000);
+        }
         return response;
       })
       .catch(error => {
-        console.log('error::', error.response.data.message);
+        setIsSubmitting(false);
+        Toast.show({
+          type: 'error',
+          text1: 'try to register again',
+        });
+        console.log('error::', error.data);
         return error;
       });
   };
@@ -62,68 +87,120 @@ const RegisterForm = () => {
               touched,
             }) => (
               <View style={{width: '100%', gap: 20}}>
-                <View>
-                  <TextInput
-                    keyboardType="default"
-                    placeholder="Name"
-                    style={styles.inputStyle}
-                    value={values.name}
-                    onBlur={handleBlur('name')}
-                    onChangeText={handleChange('name')}
-                  />
-                  {touched.name && errors.name && (
-                    <Text style={styles.errorText}>{errors.name}</Text>
-                  )}
-                </View>
-                <View>
-                  <TextInput
-                    keyboardType="email-address"
-                    placeholder="Email"
-                    style={styles.inputStyle}
-                    value={values.email}
-                    onChangeText={handleChange('email')}
-                    onBlur={handleBlur('email')}
-                  />
-                  {touched.email && errors.email && (
-                    <Text style={styles.errorText}>{errors.email}</Text>
-                  )}
-                </View>
-                <View>
-                  <TextInput
-                    keyboardType="default"
-                    placeholder="Phone Number"
-                    style={styles.inputStyle}
-                    value={values.phone_number}
-                    onChangeText={handleChange('phone_number')}
-                    onBlur={handleBlur('phone_number')}
-                  />
-                  {touched.phone_number && errors.phone_number && (
-                    <Text style={styles.errorText}>{errors.phone_number}</Text>
-                  )}
-                </View>
-                <View>
-                  <TextInput
-                    keyboardType="default"
-                    placeholder="Password"
-                    secureTextEntry={true}
-                    style={styles.inputStyle}
-                    value={values.password}
-                    onChangeText={handleChange('password')}
-                    onBlur={handleBlur('password')}
-                  />
-                  {touched.password && errors.password && (
-                    <Text style={styles.errorText}>{errors.password}</Text>
-                  )}
-                </View>
-                <TouchableOpacity
-                  style={styles.authButton}
-                  onPress={handleSubmit as any}>
-                  <Text style={styles.buttonText}>Sign up</Text>
-                </TouchableOpacity>
+                {registerToggle === 'contact-info' ? (
+                  <>
+                    <View>
+                      <TextInput
+                        keyboardType="default"
+                        placeholder="Name"
+                        style={styles.inputStyle}
+                        value={values.name}
+                        onBlur={handleBlur('name')}
+                        onChangeText={handleChange('name')}
+                        placeholderTextColor="#231A16"
+                      />
+                      {touched.name && errors.name && (
+                        <Text style={styles.errorText}>{errors.name}</Text>
+                      )}
+                    </View>
+                    <View>
+                      <TextInput
+                        keyboardType="email-address"
+                        placeholder="Email"
+                        style={styles.inputStyle}
+                        value={values.email}
+                        onChangeText={handleChange('email')}
+                        onBlur={handleBlur('email')}
+                        placeholderTextColor="#231A16"
+                      />
+                      {touched.email && errors.email && (
+                        <Text style={styles.errorText}>{errors.email}</Text>
+                      )}
+                    </View>
+                    <View>
+                      <TextInput
+                        keyboardType="default"
+                        placeholder="Phone Number"
+                        style={styles.inputStyle}
+                        value={values.phone_number}
+                        onChangeText={handleChange('phone_number')}
+                        onBlur={handleBlur('phone_number')}
+                        placeholderTextColor="#231A16"
+                      />
+                      {touched.phone_number && errors.phone_number && (
+                        <Text style={styles.errorText}>
+                          {errors.phone_number}
+                        </Text>
+                      )}
+                    </View>
+                    <TouchableOpacity
+                      style={styles.authButton}
+                      onPress={() => {
+                        if (
+                          !errors.email &&
+                          !errors.phone_number &&
+                          !errors.name
+                        ) {
+                          setRegisterToggle('pass-confirm');
+                        }
+                      }}>
+                      <Text style={styles.buttonText}>Continue</Text>
+                    </TouchableOpacity>
+                  </>
+                ) : null}
+                {registerToggle === 'pass-confirm' && (
+                  <>
+                    <View>
+                      <TextInput
+                        keyboardType="default"
+                        placeholder="Password"
+                        secureTextEntry={true}
+                        style={styles.inputStyle}
+                        value={values.password}
+                        onChangeText={handleChange('password')}
+                        onBlur={handleBlur('password')}
+                        placeholderTextColor="#231A16"
+                      />
+                      {touched.password && errors.password && (
+                        <Text style={styles.errorText}>{errors.password}</Text>
+                      )}
+                    </View>
+                    <View>
+                      <TextInput
+                        keyboardType="default"
+                        placeholder="Confirm Password"
+                        secureTextEntry={true}
+                        style={styles.inputStyle}
+                        value={values.confirm_password}
+                        onChangeText={handleChange('confirm_password')}
+                        onBlur={handleBlur('confirm_password')}
+                        placeholderTextColor="#231A16"
+                      />
+                      {touched.confirm_password && errors.confirm_password && (
+                        <Text style={styles.errorText}>
+                          {errors.confirm_password}
+                        </Text>
+                      )}
+                    </View>
+                    <TouchableOpacity
+                      style={styles.authButton}
+                      disabled={isSubmitting}
+                      onPress={handleSubmit as any}>
+                      {isSubmitting ? (
+                        <ActivityIndicator />
+                      ) : (
+                        <Text style={styles.buttonText}>Sign up</Text>
+                      )}
+                    </TouchableOpacity>
+                    <Button
+                      onPress={() => setRegisterToggle('contact-info')}
+                      title="Back"
+                    />
+                  </>
+                )}
               </View>
             )}
           </Formik>
-
           <View style={{gap: 10}}>
             <Text>you already have an account,</Text>
             <TouchableWithoutFeedback onPress={LoginNavigation}>

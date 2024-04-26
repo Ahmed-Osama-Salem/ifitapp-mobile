@@ -5,6 +5,14 @@ interface RegisterPayload {
   name: string;
   phone_number: string;
 }
+interface VerifyOtpPayload {
+  otp: string | any;
+}
+
+interface LoginPayload {
+  email: string;
+  password: string;
+}
 class AuthService {
   RegisterService = async (payload: RegisterPayload) => {
     console.log('====================================');
@@ -16,8 +24,44 @@ class AuthService {
         return response;
       })
       .catch(error => {
+        console.log('====================================');
+        console.log(error);
+        console.log('====================================');
         return error;
       });
+  };
+
+  VerifyOtpService = async (payload: VerifyOtpPayload) => {
+    console.log('====================================');
+    console.log('payload::', payload);
+    console.log('====================================');
+    return await axios
+      .post('https://backend-service-ifit.onrender.com/verify', payload)
+      .then(response => {
+        return response;
+      })
+      .catch(error => {
+        return error;
+      });
+  };
+
+  LoginService = async (payload: LoginPayload) => {
+    console.log('====================================');
+    console.log('payload::', payload);
+    console.log('====================================');
+    try {
+      const response = await axios.post(
+        'https://backend-service-ifit.onrender.com/login',
+        payload,
+      );
+
+      return response;
+    } catch (error: any) {
+      console.log('====================================');
+      console.log(error.response.data);
+      console.log('====================================');
+      return error.response.data;
+    }
   };
 }
 export default AuthService;

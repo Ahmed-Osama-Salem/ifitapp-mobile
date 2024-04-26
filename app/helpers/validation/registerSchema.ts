@@ -23,10 +23,10 @@ const registerSchema = yup.object().shape({
     )
     .min(8, ({min}) => `Password must be at least ${min} characters`)
     .required('Password is required'),
-  // confirmPassword: yup
-  //   .string()
-  //   .oneOf([yup.ref('password')], 'Passwords do not match')
-  //   .required('Confirm password is required'),
+  confirm_password: yup
+    .string()
+    .oneOf([yup.ref('password')], 'Passwords do not match')
+    .required('Confirm password is required'),
 });
 
 export default registerSchema;

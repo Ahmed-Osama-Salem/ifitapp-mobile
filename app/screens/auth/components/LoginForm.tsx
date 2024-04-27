@@ -28,7 +28,9 @@ const LoginForm = () => {
     try {
       const response = await authPromise.LoginService(values);
       setIsSubmitting(false);
-
+      console.log('====================================');
+      console.log('response::::', response);
+      console.log('====================================');
       if (response.data.status === 200) {
         Toast.show({
           type: 'success',
@@ -39,16 +41,16 @@ const LoginForm = () => {
         }, 2000);
       }
 
-      if (response.status === 401) {
-        setIsSubmitting(false);
-        Toast.show({
-          type: 'error',
-          text1: response.message,
-        });
-      }
       return response;
     } catch (error: any) {
+      console.log('====================================');
+      console.log('error::', error.response.data);
+      console.log('====================================');
       setIsSubmitting(false);
+      Toast.show({
+        type: 'error',
+        text1: error.response.data.message,
+      });
 
       return error.response.data;
     }

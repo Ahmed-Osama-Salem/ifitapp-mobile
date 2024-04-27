@@ -2,16 +2,14 @@ import {
   Image,
   StyleSheet,
   Text,
-  TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {BottomTabHeaderProps} from '@react-navigation/bottom-tabs';
 import {useNavigation} from '@react-navigation/native';
 
-const HeaderNav = (props: BottomTabHeaderProps) => {
+const HeaderNav = () => {
   const navigation: any = useNavigation();
   return (
     <View style={styles.headerNav}>

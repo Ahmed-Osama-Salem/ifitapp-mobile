@@ -49,19 +49,22 @@ class AuthService {
     console.log('====================================');
     console.log('payload::', payload);
     console.log('====================================');
-    try {
-      const response = await axios.post(
-        'https://backend-service-ifit.onrender.com/login',
-        payload,
-      );
-
-      return response;
-    } catch (error: any) {
-      console.log('====================================');
-      console.log(error.response.data);
-      console.log('====================================');
-      return error.response.data;
-    }
+    return axios.post(
+      'https://backend-service-ifit.onrender.com/login',
+      payload,
+    );
+    // .then(response => {
+    //   console.log('====================================');
+    //   console.log('response::', response.data);
+    //   console.log('====================================');
+    //   return response;
+    // })
+    // .catch(error => {
+    //   console.log('====================================');
+    //   console.log('error::', error.response.data);
+    //   console.log('====================================');
+    //   return error.response.data;
+    // });
   };
 }
 export default AuthService;

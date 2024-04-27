@@ -34,8 +34,10 @@ const PostDetailsScreen = ({route}: any) => {
                   <Text style={styles.boldText}>Follow</Text>
                 </View>
                 <View style={styles.autherContainer}>
-                  <Text>Published in 22 jun .</Text>
-                  <Text>6 min read</Text>
+                  <Text style={{fontFamily: 'Nunito-Regular'}}>
+                    Published in 22 jun .
+                  </Text>
+                  <Text style={{fontFamily: 'Nunito-Regular'}}>6 min read</Text>
                 </View>
               </View>
             </View>
@@ -65,7 +67,14 @@ const PostDetailsScreen = ({route}: any) => {
               </Text>
             </View>
             <View style={{marginVertical: 20, gap: 20}}>
-              <Text style={{fontWeight: '700', fontSize: 28}}>Summry</Text>
+              <Text
+                style={{
+                  fontWeight: '700',
+                  fontSize: 28,
+                  fontFamily: 'Nunito-Bold',
+                }}>
+                Summry
+              </Text>
               <Text style={styles.contentStyle}>
                 ntrary to popular belief, Lorem Ipsum is not simply random text.
                 It has roots in a piece of classical Latin literature from 45
@@ -84,7 +93,12 @@ const PostDetailsScreen = ({route}: any) => {
             </View>
             <PostInteractions />
             <View style={{marginVertical: 30}}>
-              <Text style={{fontWeight: '700', fontSize: 28}}>
+              <Text
+                style={{
+                  fontWeight: '700',
+                  fontSize: 28,
+                  fontFamily: 'Nunito-Bold',
+                }}>
                 More From Elfit
               </Text>
               <View
@@ -95,7 +109,12 @@ const PostDetailsScreen = ({route}: any) => {
               </View>
             </View>
             <View style={{marginVertical: 30}}>
-              <Text style={{fontWeight: '700', fontSize: 28}}>
+              <Text
+                style={{
+                  fontWeight: '700',
+                  fontSize: 28,
+                  fontFamily: 'Nunito-Bold',
+                }}>
                 Related Articels
               </Text>
               <View
@@ -128,6 +147,7 @@ const styles = StyleSheet.create({
   postTitle: {
     fontSize: 24,
     fontWeight: '700',
+    fontFamily: 'Nunito-ExtraBold',
   },
   autherImgStyle: {
     width: 56,
@@ -147,10 +167,12 @@ const styles = StyleSheet.create({
   },
   boldText: {
     fontWeight: '700',
+    fontFamily: 'Nunito-Bold',
   },
   contentStyle: {
     fontSize: 16,
     color: '#98A1B3',
+    fontFamily: 'Nunito-Regular',
   },
   imageStyle: {
     width: '100%',

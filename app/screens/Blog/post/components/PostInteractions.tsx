@@ -4,9 +4,9 @@ import React from 'react';
 const PostInteractions = () => {
   return (
     <View style={styles.container}>
-      <Text>Save</Text>
-      <Text>Helpful</Text>
-      <Text>Comment</Text>
+      <Text style={styles.textStyle}>Save</Text>
+      <Text style={styles.textStyle}>Helpful</Text>
+      <Text style={styles.textStyle}>Comment</Text>
     </View>
   );
 };
@@ -24,5 +24,10 @@ const styles = StyleSheet.create({
     position: 'relative',
     width: '100%',
     borderRadius: 10,
+  },
+  textStyle: {
+    fontSize: 14,
+    fontWeight: '500',
+    fontFamily: 'Nunito-Regular',
   },
 });

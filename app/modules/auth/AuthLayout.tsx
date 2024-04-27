@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
   loginContent: {
     fontSize: 40,
     fontWeight: '700',
+    fontFamily: 'Nunito-ExtraBold',
   },
   highlight: {
     fontWeight: '700',

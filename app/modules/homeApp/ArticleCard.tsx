@@ -30,7 +30,7 @@ const ArticleCard = (props: ArticleCardProps) => {
     <View style={styles.cardContainer}>
       <View style={styles.cardHeader}>
         <View style={styles.contentContainer}>
-          <Text>Mohamed Elfit</Text>
+          <Text style={{fontFamily: 'Nunito-Medium'}}>Mohamed Elfit</Text>
           <Text style={styles.textStyles}>17 june, 2022</Text>
         </View>
         <View style={styles.contentContainer}>
@@ -101,11 +101,13 @@ const styles = StyleSheet.create({
   },
   textStyles: {
     color: '#98A1B3',
+    fontFamily: 'Nunito-Regular',
   },
   mainTitle: {
     fontSize: 20,
     fontWeight: '700',
     color: '#231A16',
+    fontFamily: 'Nunito-Bold',
   },
   imageStyle: {
     width: '100%',

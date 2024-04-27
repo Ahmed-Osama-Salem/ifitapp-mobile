@@ -6,7 +6,13 @@ const RelatedArticelCard = () => {
     <View style={styles.cardContainer}>
       <View style={styles.contentSide}>
         <Text style={styles.postTitle}>Civil engineering</Text>
-        <Text style={{color: '#98A1B3', fontSize: 14, lineHeight: 25}}>
+        <Text
+          style={{
+            color: '#98A1B3',
+            fontSize: 14,
+            lineHeight: 25,
+            fontFamily: 'Nunito-Regular',
+          }}>
           Generate Lorem IpSelect the numbeGenerate Lorem IpSelect.
         </Text>
       </View>
@@ -32,14 +38,15 @@ const styles = StyleSheet.create({
     borderColor: '#E1E2E6FC',
     borderWidth: 1,
     borderRadius: 10,
+    backgroundColor: '#F7F8FA',
   },
   contentSide: {
     width: '55%',
-    backgroundColor: '#F7F8FA',
     flexDirection: 'column',
     gap: 10,
     padding: 10,
-    borderRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderTopLeftRadius: 10,
   },
   imageSide: {
     flexGrow: 1,
@@ -54,5 +61,6 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: '700',
     color: '#666E80',
+    fontFamily: 'Nunito-Bold',
   },
 });

@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
     color: 'black',
     fontWeight: '700',
     marginVertical: 20,
+    fontFamily: 'Nunito-ExtraBold',
   },
   ArticlesContainer: {
     flexDirection: 'column',

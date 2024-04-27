@@ -33,5 +33,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: '600',
     fontSize: 17,
+    fontFamily: 'Nunito-bold',
   },
 });

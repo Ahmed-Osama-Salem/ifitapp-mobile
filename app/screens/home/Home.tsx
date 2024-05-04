@@ -1,14 +1,8 @@
-import {
-  ActivityIndicator,
-  RefreshControl,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import React, {useMemo, useState} from 'react';
 import ArticleCard from '../../modules/homeApp/ArticleCard';
 import BlogService, {BlogPost} from '../../server/blog/BlogService';
+import {RefreshControl} from 'react-native-gesture-handler';
 
 const Home = () => {
   const articles = new BlogService();
@@ -26,12 +20,15 @@ const Home = () => {
     }, 2000);
   }, []);
 
-  useEffect(() => {
+  useMemo(() => {
     articles
       .getBlogPosts()
       .then(res => {
-        setFeaturedArticles(res.data.data.data.featured);
-        setNewestArticles(res.data.data.data.newest);
+        if (res) {
+          setFeaturedArticles(res.data.data.data.featured);
+          setNewestArticles(res.data.data.data.newest);
+        }
+        return res;
       })
       .catch(err => {
         console.log(err);
@@ -48,7 +45,6 @@ const Home = () => {
             refreshing={refreshing}
             onRefresh={onRefresh}
             tintColor={'#F6E117'}
-            size={20}
           />
         }>
         <Text style={styles.text}>Top Articles</Text>

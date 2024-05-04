@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unstable-nested-components */
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Home from '../screens/home/Home';
@@ -7,6 +7,8 @@ import FAQ from '../screens/faq/FAQ';
 import Blog from '../screens/Blog/Blog';
 import Settings from '../screens/settings/Settings';
 import HeaderNav from '../screens/home/components/HeaderNav';
+
+const isIos = Platform.OS === 'ios';
 
 const HomeTabNavigation = () => {
   const Tab = createBottomTabNavigator();
@@ -19,8 +21,8 @@ const HomeTabNavigation = () => {
         tabBarInactiveTintColor: '#C9C9C9',
         tabBarStyle: appTabStyles.appTabsContainer,
         tabBarLabelStyle: appTabStyles.noneActiveTab,
-        header(props) {
-          return <HeaderNav {...props} />;
+        header() {
+          return <HeaderNav />;
         },
       }}>
       <Tab.Screen
@@ -87,7 +89,7 @@ export default HomeTabNavigation;
 
 const appTabStyles = StyleSheet.create({
   appTabsContainer: {
-    height: 100,
+    height: isIos ? 100 : 70,
     width: '100%',
     paddingHorizontal: 25,
     paddingVertical: 10,

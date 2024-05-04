@@ -1,5 +1,6 @@
 import {
   Image,
+  Platform,
   StyleSheet,
   Text,
   TouchableWithoutFeedback,
@@ -9,6 +10,7 @@ import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
 
+const isIos = Platform.OS === 'ios';
 const HeaderNav = () => {
   const navigation: any = useNavigation();
   return (
@@ -39,9 +41,9 @@ export default HeaderNav;
 const styles = StyleSheet.create({
   headerNav: {
     backgroundColor: '#F6E117',
-    height: 120,
+    height: isIos ? 120 : 70,
     flexDirection: 'row',
-    alignItems: 'baseline',
+    alignItems: isIos ? 'baseline' : 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
     // apply shadow to the header

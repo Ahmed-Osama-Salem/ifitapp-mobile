@@ -128,8 +128,9 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#231A16',
     textAlign: 'center',
-    fontWeight: '600',
-    fontSize: 17,
+    // fontWeight: '600',
+    fontSize: 16,
+    fontFamily: 'Nunito-ExtraBold',
   },
   footerContainer: {
     flexDirection: 'row',

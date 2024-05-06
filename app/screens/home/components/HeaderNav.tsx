@@ -3,12 +3,12 @@ import {
   Platform,
   StyleSheet,
   Text,
-  TouchableWithoutFeedback,
+  // TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {useNavigation} from '@react-navigation/native';
+// import {useNavigation} from '@react-navigation/native';
 import {
   NotifyIcon,
   HumburgerMenuIcon,
@@ -18,7 +18,7 @@ import {
 const isIos = Platform.OS === 'ios';
 
 const HeaderNav = () => {
-  const navigation: any = useNavigation();
+  // const navigation: any = useNavigation();
   return (
     <View style={styles.headerNav}>
       <SafeAreaView style={styles.iosSafeArea}>

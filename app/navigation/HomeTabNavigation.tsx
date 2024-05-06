@@ -99,7 +99,7 @@ const HomeTabNavigation = () => {
                 style={
                   focused ? {color: '#F6E117'} : appTabStyles.noneActiveTab
                 }>
-                FAQ
+                Q&A
               </Text>
             </View>
           ),
@@ -116,7 +116,7 @@ const HomeTabNavigation = () => {
                 style={
                   focused ? {color: '#F6E117'} : appTabStyles.noneActiveTab
                 }>
-                Settings
+                Me
               </Text>
             </View>
           ),

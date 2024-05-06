@@ -1,8 +1,10 @@
-import Svg, {Path} from 'react-native-svg';
+import Svg, {Circle, Path} from 'react-native-svg';
 import React from 'react';
 
 interface SVGiconsProps {
   colorStroke?: string | undefined;
+  width?: number;
+  height?: number;
 }
 
 export const NotifyIcon = () => {
@@ -16,14 +18,14 @@ export const NotifyIcon = () => {
     >
       <Path
         d="M15.07 19.25a3.08 3.08 0 01-6.14 0M19.48 12l.5 4a2 2 0 01-1.56 2.2 28.13 28.13 0 01-12.84 0A2 2 0 014.01 16l1-8.11a7 7 0 017-5.94v0h.65"
-        stroke="#666E80"
+        stroke="#202020"
         strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <Path
         d="M19 9a4 4 0 100-8 4 4 0 000 8z"
-        stroke="#666E80"
+        stroke="#202020"
         strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -43,7 +45,7 @@ export const SearchIcon = () => {
     >
       <Path
         d="M18.654 17.595l2.93 2.928a.75.75 0 01-1.061 1.06l-2.93-2.929a9.75 9.75 0 111.061-1.06v.001zM11.25 19.5a8.25 8.25 0 100-16.5 8.25 8.25 0 000 16.5z"
-        fill="#666E80"
+        fill="#202020"
       />
     </Svg>
   );
@@ -54,7 +56,7 @@ export const HumburgerMenuIcon = () => {
     <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
       <Path
         d="M2 12h20M2 18h20M2 6h20"
-        stroke="#666E80"
+        stroke="#202020"
         strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -128,10 +130,50 @@ export const FQAIcon = (props: SVGiconsProps) => {
 
 export const AskIcon = (props: SVGiconsProps) => {
   return (
-    <Svg width={30} height={31} viewBox="0 0 24 25" fill="none">
+    <Svg
+      width={props.width || 30}
+      height={props.height || 31}
+      viewBox="0 0 24 25"
+      fill="none">
       <Path
         d="M2.33 8.39C.25 11.82 9.42 14.9 9.42 14.9s3.08 9.17 6.51 7.09c3.64-2.22 8-15.86 5.12-18.72C18.17.41 4.55 4.75 2.33 8.39zM15.2 9.12L9.42 14.9"
         stroke={props.colorStroke}
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </Svg>
+  );
+};
+
+export const ShowIcon = () => {
+  return (
+    <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
+      <Path
+        d="M12 16.01a4 4 0 100-8 4 4 0 000 8zM2 11.98c6.09-10.66 13.91-10.65 20 0M22 12.01c-6.09 10.66-13.91 10.65-20 0"
+        stroke="#666E80"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </Svg>
+  );
+};
+
+export const DotFlagIcon = (props: SVGiconsProps) => {
+  return (
+    <Svg width={7} height={8} viewBox="0 0 7 8" fill="none">
+      <Circle cx={3.5} cy={4} r={3.5} fill={props.colorStroke} />
+    </Svg>
+  );
+};
+
+export const BackArrowIcon = () => {
+  return (
+    <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
+      <Path
+        d="M22 11.93H2M8 19l-5.16-5a2.75 2.75 0 010-4L8 5"
+        stroke="#202020"
         strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"

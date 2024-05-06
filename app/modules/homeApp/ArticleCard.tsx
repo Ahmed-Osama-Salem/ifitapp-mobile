@@ -10,6 +10,7 @@ import React from 'react';
 import {BlogPost} from '../../server/blog/BlogService';
 import RenderHtml from 'react-native-render-html';
 import {useNavigation} from '@react-navigation/native';
+import {ProfileIcon} from '../SvgIcons';
 
 interface ArticleCardProps {
   data: BlogPost;
@@ -29,7 +30,8 @@ const ArticleCard = (props: ArticleCardProps) => {
   return (
     <View style={styles.cardContainer}>
       <View style={styles.cardHeader}>
-        <View style={styles.contentContainer}>
+        <View style={styles.autherHeader}>
+          <ProfileIcon colorStroke="#666E80" />
           <Text style={{fontFamily: 'Nunito-Medium'}}>Mohamed Elfit</Text>
           <Text style={styles.textStyles}>17 june, 2022</Text>
         </View>
@@ -92,7 +94,12 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    gap: 20,
+    gap: 10,
+  },
+  autherHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
   },
   contentContainer: {
     flexDirection: 'row',

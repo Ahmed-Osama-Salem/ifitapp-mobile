@@ -3,6 +3,8 @@ import React, {useMemo, useState} from 'react';
 import ArticleCard from '../../modules/homeApp/ArticleCard';
 import BlogService, {BlogPost} from '../../server/blog/BlogService';
 import {RefreshControl} from 'react-native-gesture-handler';
+import HeadText from '../../modules/elements/HeadText';
+import ScreenLayout from '../../modules/elements/ScreenLayout';
 
 const Home = () => {
   const articles = new BlogService();
@@ -37,7 +39,7 @@ const Home = () => {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <ScreenLayout>
       <ScrollView
         showsVerticalScrollIndicator={false}
         refreshControl={
@@ -47,32 +49,20 @@ const Home = () => {
             tintColor={'#F6E117'}
           />
         }>
-        <Text style={styles.text}>Top Articles</Text>
+        <HeadText content="Top Articles" />
         <View style={styles.ArticlesContainer}>
           {featuredArticles.map(article => (
             <ArticleCard key={article._id} data={article} />
           ))}
         </View>
       </ScrollView>
-    </View>
+    </ScreenLayout>
   );
 };
 
 export default Home;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-    paddingHorizontal: 20,
-  },
-  text: {
-    fontSize: 40,
-    color: 'black',
-    fontWeight: '700',
-    marginVertical: 20,
-    fontFamily: 'Nunito-ExtraBold',
-  },
   ArticlesContainer: {
     flexDirection: 'column',
     justifyContent: 'space-between',

@@ -45,4 +45,17 @@ const Buttons = StyleSheet.create({
   },
 });
 
-export {Fonts, Buttons};
+const Shadows = StyleSheet.create({
+  container: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+});
+
+export {Fonts, Buttons, Shadows};

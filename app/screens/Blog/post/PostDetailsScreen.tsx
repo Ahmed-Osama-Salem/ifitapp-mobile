@@ -1,9 +1,9 @@
 import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import HeaderNav from '../../home/components/HeaderNav';
-import BackNavigator from '../../../modules/elements/BackNavigator';
 import PostInteractions from './components/PostInteractions';
 import RelatedArticelCard from '../../../modules/homeApp/RelatedArticelCard';
+import BackArrowButton from '../../../modules/elements/BackArrowButton';
 
 const PostDetailsScreen = ({route}: any) => {
   const {slug} = route.params;
@@ -14,7 +14,7 @@ const PostDetailsScreen = ({route}: any) => {
       <View style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.backNavContainer}>
-            <BackNavigator />
+            <BackArrowButton />
           </View>
           <View>
             <Text style={styles.postTitle}>
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
   backNavContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    width: '25%',
+    marginVertical: 20,
   },
   postTitle: {
     fontSize: 24,

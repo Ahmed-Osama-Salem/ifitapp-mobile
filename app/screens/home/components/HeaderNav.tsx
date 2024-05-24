@@ -3,6 +3,7 @@ import {
   Platform,
   StyleSheet,
   Text,
+  useWindowDimensions,
   // TouchableWithoutFeedback,
   View,
 } from 'react-native';
@@ -18,9 +19,11 @@ import {
 const isIos = Platform.OS === 'ios';
 
 const HeaderNav = () => {
-  // const navigation: any = useNavigation();
+  const windowHeight = useWindowDimensions().height;
+
+  const headerHeight = isIos ? windowHeight * 0.122 : windowHeight * 0.07;
   return (
-    <View style={styles.headerNav}>
+    <View style={{...styles.headerNav, height: isIos ? headerHeight : 70}}>
       <SafeAreaView style={styles.iosSafeArea}>
         <View style={styles.logoContainer}>
           <Image
@@ -52,7 +55,6 @@ export default HeaderNav;
 const styles = StyleSheet.create({
   headerNav: {
     backgroundColor: '#F6E117',
-    height: isIos ? 110 : 70,
     flexDirection: 'row',
     alignItems: isIos ? 'baseline' : 'center',
     justifyContent: 'space-between',
@@ -72,19 +74,23 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'baseline',
+    width: 'auto',
+    height: '100%',
   },
   typography: {
-    fontSize: 20,
+    fontSize: 18,
     fontFamily: 'Nunito-ExtraBold',
-    transform: [{translateY: 12}, {translateX: -10}],
+    transform: [{translateY: -10}, {translateX: -10}],
+    color: '#000',
   },
   controlContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
+    height: 'auto',
+    alignItems: isIos ? 'baseline' : 'center',
     justifyContent: 'space-between',
   },
-  ifitLogo: {width: 50, height: 50, resizeMode: 'contain'},
+  ifitLogo: {width: 45, height: 45, resizeMode: 'contain'},
   iconGroup: {
     flexDirection: 'row',
     alignItems: 'center',

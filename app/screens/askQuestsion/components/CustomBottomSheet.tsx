@@ -12,11 +12,11 @@ interface CustomBottomSheetProps {
   children: ReactNode;
 }
 
-type Ref = BottomSheetModal | null;
+export type Ref = BottomSheetModal | null;
 
 const CustomBottomSheet = forwardRef<Ref, CustomBottomSheetProps>(
   (props, ref) => {
-    const snapPoints = useMemo(() => ['25%', '50%'], []);
+    const snapPoints = useMemo(() => ['25%', '50%', '70%'], []);
 
     const handleSheetChanges = useCallback((index: number) => {
       console.log('handleSheetChanges', index);
@@ -40,12 +40,11 @@ const CustomBottomSheet = forwardRef<Ref, CustomBottomSheetProps>(
         <View>
           <BottomSheetModal
             ref={ref}
-            index={1}
+            index={2}
             snapPoints={snapPoints}
             backdropComponent={renderBackdrop}
             onChange={handleSheetChanges}>
             <BottomSheetView style={styles.contentContainer}>
-              {/* <Text>Awesome 🎉</Text> */}
               {props.children}
             </BottomSheetView>
           </BottomSheetModal>

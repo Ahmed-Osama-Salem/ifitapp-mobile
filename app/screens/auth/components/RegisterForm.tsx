@@ -14,6 +14,7 @@ import AuthService from '../../../server/auth/AuthService';
 import {Formik} from 'formik';
 import registerSchema from '../../../helpers/validation/registerSchema';
 import Toast from 'react-native-toast-message';
+import {Shadows} from '../../../utils/theme';
 
 const RegisterForm = () => {
   const navigation: any = useNavigation();
@@ -219,10 +220,16 @@ export default RegisterForm;
 const styles = StyleSheet.create({
   screenContainer: {
     flexDirection: 'column',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     paddingVertical: 20,
     paddingHorizontal: 20,
+    borderTopLeftRadius: 50,
+    borderTopRightRadius: 50,
+    zIndex: 2,
+    backgroundColor: '#FFF',
+    height: '100%',
+    ...Shadows.container,
   },
   formHeader: {
     fontSize: 25,

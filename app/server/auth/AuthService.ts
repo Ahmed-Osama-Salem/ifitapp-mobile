@@ -53,18 +53,6 @@ class AuthService {
       'https://backend-service-ifit.onrender.com/login',
       payload,
     );
-    // .then(response => {
-    //   console.log('====================================');
-    //   console.log('response::', response.data);
-    //   console.log('====================================');
-    //   return response;
-    // })
-    // .catch(error => {
-    //   console.log('====================================');
-    //   console.log('error::', error.response.data);
-    //   console.log('====================================');
-    //   return error.response.data;
-    // });
   };
 }
 export default AuthService;

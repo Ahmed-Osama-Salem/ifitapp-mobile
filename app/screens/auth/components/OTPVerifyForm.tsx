@@ -9,6 +9,7 @@ import React, {useRef, useState} from 'react';
 import AuthService from '../../../server/auth/AuthService';
 import Toast from 'react-native-toast-message';
 import {useNavigation} from '@react-navigation/native';
+import {Shadows} from '../../../utils/theme';
 
 const OTPVerifyForm = () => {
   const [otp, setOTP] = useState('');
@@ -106,10 +107,16 @@ export default OTPVerifyForm;
 const styles = StyleSheet.create({
   otpScreen: {
     flexDirection: 'column',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     paddingVertical: 20,
     paddingHorizontal: 20,
+    borderTopLeftRadius: 50,
+    borderTopRightRadius: 50,
+    zIndex: 2,
+    backgroundColor: '#FFF',
+    height: '100%',
+    ...Shadows.container,
   },
   otpContainer: {
     flexDirection: 'row',

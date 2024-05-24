@@ -181,3 +181,14 @@ export const BackArrowIcon = () => {
     </Svg>
   );
 };
+
+export const PlusIcon = () => {
+  return (
+    <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
+      <Path
+        d="M20.813 12a.562.562 0 01-.563.563h-7.688v7.687a.562.562 0 11-1.124 0v-7.688H3.75a.563.563 0 010-1.124h7.688V3.75a.563.563 0 011.124 0v7.688h7.688a.562.562 0 01.563.562z"
+        fill="#000"
+      />
+    </Svg>
+  );
+};

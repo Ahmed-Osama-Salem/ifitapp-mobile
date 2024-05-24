@@ -13,6 +13,7 @@ import AuthService from '../../../server/auth/AuthService';
 import Toast from 'react-native-toast-message';
 import {Formik} from 'formik';
 import loginSchema from '../../../helpers/validation/loginSchema';
+import {Shadows} from '../../../utils/theme';
 
 const LoginForm = () => {
   const navigation: any = useNavigation();
@@ -62,7 +63,7 @@ const LoginForm = () => {
 
   return (
     <View style={styles.screenContainer}>
-      <Text style={styles.formHeader}>Log in</Text>
+      <Text style={styles.formHeader}>Sign in</Text>
       <Text style={styles.formDescription}>
         to i Fit , the first engineering community app
       </Text>
@@ -141,19 +142,24 @@ export default LoginForm;
 const styles = StyleSheet.create({
   screenContainer: {
     flexDirection: 'column',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     paddingVertical: 20,
     paddingHorizontal: 20,
+    borderTopLeftRadius: 50,
+    borderTopRightRadius: 50,
+    zIndex: 2,
+    backgroundColor: '#FFF',
+    height: '100%',
+    ...Shadows.container,
   },
   formHeader: {
     fontSize: 25,
-    fontWeight: '700',
     fontFamily: 'Nunito-Bold',
+    color: '#231A16',
   },
   formDescription: {
     fontSize: 16,
-    fontWeight: '500',
     marginTop: 10,
     fontFamily: 'Nunito-Medium',
   },
@@ -185,7 +191,6 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#231A16',
     textAlign: 'center',
-    fontWeight: '600',
     fontSize: 16,
     fontFamily: 'Nunito-Medium',
   },

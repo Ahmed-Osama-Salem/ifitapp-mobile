@@ -14,7 +14,7 @@ import AuthService from '../../../server/auth/AuthService';
 import {Formik} from 'formik';
 import registerSchema from '../../../helpers/validation/registerSchema';
 import Toast from 'react-native-toast-message';
-import {Shadows} from '../../../utils/theme';
+import {Colors, Shadows} from '../../../utils/theme';
 
 const RegisterForm = () => {
   const navigation: any = useNavigation();
@@ -38,32 +38,31 @@ const RegisterForm = () => {
 
   const registerUser = async (values: typeof registerValues) => {
     setIsSubmitting(true);
-    return authPromise
-      .RegisterService(values)
-      .then(response => {
-        setIsSubmitting(false);
+    try {
+      const response = await authPromise.RegisterService(values);
 
-        console.log('response::', response.data.message);
-        if (response.data) {
-          Toast.show({
-            type: 'success',
-            text1: response.data.message,
-          });
-          setTimeout(() => {
-            navigation.navigate('otp-verify');
-          }, 2000);
-        }
-        return response;
-      })
-      .catch(error => {
-        setIsSubmitting(false);
+      setIsSubmitting(false);
+
+      console.log('response::', response);
+      if (response.data) {
         Toast.show({
-          type: 'error',
-          text1: 'try to register again',
+          type: 'success',
+          text1: response.data.message,
         });
-        console.log('error::', error.data);
-        return error;
+        setTimeout(() => {
+          navigation.navigate('otp-verify');
+        }, 2000);
+      }
+      return response;
+    } catch (error) {
+      setIsSubmitting(false);
+      Toast.show({
+        type: 'error',
+        text1: 'try to register again',
       });
+      console.log('error::', error);
+      return error;
+    }
   };
 
   return (
@@ -98,7 +97,7 @@ const RegisterForm = () => {
                         value={values.name}
                         onBlur={handleBlur('name')}
                         onChangeText={handleChange('name')}
-                        placeholderTextColor="#231A16"
+                        placeholderTextColor={Colors.text.secondary}
                       />
                       {touched.name && errors.name && (
                         <Text style={styles.errorText}>{errors.name}</Text>
@@ -112,7 +111,7 @@ const RegisterForm = () => {
                         value={values.email}
                         onChangeText={handleChange('email')}
                         onBlur={handleBlur('email')}
-                        placeholderTextColor="#231A16"
+                        placeholderTextColor={Colors.text.secondary}
                       />
                       {touched.email && errors.email && (
                         <Text style={styles.errorText}>{errors.email}</Text>
@@ -126,7 +125,7 @@ const RegisterForm = () => {
                         value={values.phone_number}
                         onChangeText={handleChange('phone_number')}
                         onBlur={handleBlur('phone_number')}
-                        placeholderTextColor="#231A16"
+                        placeholderTextColor={Colors.text.secondary}
                       />
                       {touched.phone_number && errors.phone_number && (
                         <Text style={styles.errorText}>
@@ -160,7 +159,7 @@ const RegisterForm = () => {
                         value={values.password}
                         onChangeText={handleChange('password')}
                         onBlur={handleBlur('password')}
-                        placeholderTextColor="#231A16"
+                        placeholderTextColor={Colors.text.secondary}
                       />
                       {touched.password && errors.password && (
                         <Text style={styles.errorText}>{errors.password}</Text>
@@ -175,7 +174,7 @@ const RegisterForm = () => {
                         value={values.confirm_password}
                         onChangeText={handleChange('confirm_password')}
                         onBlur={handleBlur('confirm_password')}
-                        placeholderTextColor="#231A16"
+                        placeholderTextColor={Colors.text.secondary}
                       />
                       {touched.confirm_password && errors.confirm_password && (
                         <Text style={styles.errorText}>
@@ -233,11 +232,14 @@ const styles = StyleSheet.create({
   },
   formHeader: {
     fontSize: 25,
-    fontWeight: '700',
+    fontFamily: 'Nunito-Bold',
+    color: Colors.text.primary,
   },
   formDescription: {
     fontSize: 16,
     fontWeight: '500',
+    fontFamily: 'Nunito-Medium',
+    color: Colors.text.secondary,
     marginTop: 10,
   },
   inputsContainer: {
@@ -254,6 +256,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     borderRadius: 50,
+    fontFamily: 'Nunito-Medium',
+    fontSize: 16,
+    color: Colors.text.primary,
   },
   authButton: {
     backgroundColor: '#F6E117',

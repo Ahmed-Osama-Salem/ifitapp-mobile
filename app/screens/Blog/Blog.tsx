@@ -5,6 +5,7 @@ import ScreenLayout from '../../modules/elements/ScreenLayout';
 import {RefreshControl} from 'react-native-gesture-handler';
 import HeadText from '../../modules/elements/HeadText';
 import ArticleCard from '../../modules/homeApp/ArticleCard';
+import TagsFilter from '../home/components/TagsFilter';
 
 const Blog = () => {
   const articles = new BlogService();
@@ -47,6 +48,7 @@ const Blog = () => {
           />
         }>
         <HeadText content="Articles" />
+        <TagsFilter />
         <View style={styles.ArticlesContainer}>
           {featuredArticles.map(article => (
             <ArticleCard key={article._id} data={article} />

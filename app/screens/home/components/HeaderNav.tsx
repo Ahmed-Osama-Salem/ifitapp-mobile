@@ -3,6 +3,7 @@ import {
   Platform,
   StyleSheet,
   Text,
+  TouchableWithoutFeedback,
   useWindowDimensions,
   // TouchableWithoutFeedback,
   View,
@@ -15,10 +16,12 @@ import {
   HumburgerMenuIcon,
   SearchIcon,
 } from '../../../modules/SvgIcons';
+import {DrawerNavigationProp} from '@react-navigation/drawer';
+type NavProp = DrawerNavigationProp<Record<string, undefined>>;
 
 const isIos = Platform.OS === 'ios';
 
-const HeaderNav = () => {
+const HeaderNav = ({navigation}: {navigation: NavProp}) => {
   const windowHeight = useWindowDimensions().height;
 
   const headerHeight = isIos ? windowHeight * 0.122 : windowHeight * 0.07;
@@ -36,11 +39,18 @@ const HeaderNav = () => {
           <View style={styles.iconGroup}>
             <SearchIcon />
             <NotifyIcon />
-            <HumburgerMenuIcon />
+            <TouchableWithoutFeedback
+              onPress={() => {
+                navigation.toggleDrawer();
+              }}>
+              <View>
+                <HumburgerMenuIcon />
+              </View>
+            </TouchableWithoutFeedback>
           </View>
           {/* <TouchableWithoutFeedback
             onPress={() => {
-              navigation.navigate('Login');
+              navigation.toggleDrawer();
             }}>
             <Text>Logout</Text>
           </TouchableWithoutFeedback> */}

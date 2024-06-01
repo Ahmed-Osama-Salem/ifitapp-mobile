@@ -5,6 +5,7 @@ import ScreenLayout from '../../modules/elements/ScreenLayout';
 import HeadText from '../../modules/elements/HeadText';
 import FAQCard from './components/FAQCard';
 import FAQService from '../../server/FAQ/FAQService';
+import TagsFilter from '../home/components/TagsFilter';
 
 const FAQ = () => {
   const FAQPromise = new FAQService();
@@ -43,6 +44,7 @@ const FAQ = () => {
           />
         }>
         <HeadText content="Questions" />
+        <TagsFilter />
         <View style={styles.faqContainer}>
           {[...Array(5)].map((_, index) => (
             <FAQCard key={index} />

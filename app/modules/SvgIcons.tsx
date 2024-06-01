@@ -192,3 +192,31 @@ export const PlusIcon = () => {
     </Svg>
   );
 };
+
+export const BookMarkIcon = () => {
+  return (
+    <Svg width={24} height={25} viewBox="0 0 24 25" fill="none">
+      <Path
+        d="M20 7.88a4.79 4.79 0 00-4.79-4.79H8.79A4.79 4.79 0 004 7.88M4 7.88V20.4a.88.88 0 001.62.57l1.77-2.88a.83.83 0 011.36-.14l2.5 2.81a1.001 1.001 0 001.5 0l2.5-2.81a.83.83 0 011.36.14l1.77 2.88A.88.88 0 0020 20.4V7.88"
+        stroke="#000"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </Svg>
+  );
+};
+
+export const HeartIcon = () => {
+  return (
+    <Svg width={24} height={25} viewBox="0 0 24 25" fill="none">
+      <Path
+        d="M15.6 3.92a5.37 5.37 0 00-3.6 1.4 5.38 5.38 0 00-9 4c0 6.45 9 10.82 9 10.82s9-4.37 9-10.82a5.4 5.4 0 00-5.4-5.4z"
+        stroke="#000"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </Svg>
+  );
+};

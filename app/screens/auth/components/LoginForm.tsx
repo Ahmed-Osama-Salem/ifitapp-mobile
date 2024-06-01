@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   ActivityIndicator,
+  useColorScheme,
 } from 'react-native';
 import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
@@ -13,9 +14,11 @@ import AuthService from '../../../server/auth/AuthService';
 import Toast from 'react-native-toast-message';
 import {Formik} from 'formik';
 import loginSchema from '../../../helpers/validation/loginSchema';
-import {Shadows} from '../../../utils/theme';
+import {Colors, Shadows} from '../../../utils/theme';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginForm = () => {
+  const isDark = useColorScheme() === 'dark';
   const navigation: any = useNavigation();
   const authPromise = new AuthService();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -29,9 +32,13 @@ const LoginForm = () => {
     try {
       const response = await authPromise.LoginService(values);
       setIsSubmitting(false);
-      console.log('====================================');
-      console.log('response::::', response);
-      console.log('====================================');
+      // console.log('====================================');
+      // console.log('response::::', response.data.data.user);
+      // console.log('====================================');
+      const jsonValue = JSON.stringify(response.data.data.user);
+
+      await AsyncStorage.setItem('user', jsonValue);
+
       if (response.data.status === 200) {
         Toast.show({
           type: 'success',
@@ -44,9 +51,9 @@ const LoginForm = () => {
 
       return response;
     } catch (error: any) {
-      console.log('====================================');
-      console.log('error::', error.response.data);
-      console.log('====================================');
+      // console.log('====================================');
+      // console.log('error::', error.response.data);
+      // console.log('====================================');
       setIsSubmitting(false);
       Toast.show({
         type: 'error',
@@ -86,7 +93,7 @@ const LoginForm = () => {
                   keyboardType="default"
                   placeholder="Email"
                   style={styles.inputStyle}
-                  placeholderTextColor="#231A16"
+                  placeholderTextColor={Colors.text.secondary}
                   value={values.email}
                   onChangeText={handleChange('email')}
                   onBlur={handleBlur('email')}
@@ -101,7 +108,7 @@ const LoginForm = () => {
                   placeholder="Password"
                   secureTextEntry={true}
                   style={styles.inputStyle}
-                  placeholderTextColor="#231A16"
+                  placeholderTextColor={Colors.text.secondary}
                   value={values.password}
                   onChangeText={handleChange('password')}
                   onBlur={handleBlur('password')}
@@ -156,12 +163,13 @@ const styles = StyleSheet.create({
   formHeader: {
     fontSize: 25,
     fontFamily: 'Nunito-Bold',
-    color: '#231A16',
+    color: Colors.text.primary,
   },
   formDescription: {
     fontSize: 16,
     marginTop: 10,
     fontFamily: 'Nunito-Medium',
+    color: Colors.text.secondary,
   },
   inputsContainer: {
     width: '80%',
@@ -178,6 +186,8 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 50,
     fontFamily: 'Nunito-Medium',
+    fontSize: 16,
+    color: Colors.text.primary,
   },
   authButton: {
     backgroundColor: '#F6E117',
@@ -189,10 +199,10 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   buttonText: {
-    color: '#231A16',
+    color: Colors.text.primary,
     textAlign: 'center',
     fontSize: 16,
-    fontFamily: 'Nunito-Medium',
+    fontFamily: 'Nunito-bold',
   },
   registerLink: {
     color: '#231A16',
@@ -206,7 +216,7 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   errorText: {
-    color: 'red',
+    color: Colors.red,
     fontSize: 12,
     fontFamily: 'Nunito-Medium',
     marginTop: 5,

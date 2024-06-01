@@ -18,17 +18,10 @@ class AuthService {
     console.log('====================================');
     console.log('payload::', payload);
     console.log('====================================');
-    return await axios
-      .post('https://backend-service-ifit.onrender.com/register', payload)
-      .then(response => {
-        return response;
-      })
-      .catch(error => {
-        console.log('====================================');
-        console.log(error);
-        console.log('====================================');
-        return error;
-      });
+    return await axios.post(
+      'https://backend-service-ifit.onrender.com/register',
+      payload,
+    );
   };
 
   VerifyOtpService = async (payload: VerifyOtpPayload) => {

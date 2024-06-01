@@ -11,8 +11,8 @@ const styles = StyleSheet.create({
   headText: {
     fontSize: 40,
     color: 'black',
-    fontWeight: '700',
     fontFamily: 'Nunito-ExtraBold',
     paddingVertical: 15,
+    paddingHorizontal: 20,
   },
 });

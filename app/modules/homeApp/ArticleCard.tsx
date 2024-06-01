@@ -10,7 +10,8 @@ import React from 'react';
 import {BlogPost} from '../../server/blog/BlogService';
 import RenderHtml from 'react-native-render-html';
 import {useNavigation} from '@react-navigation/native';
-import {ProfileIcon} from '../SvgIcons';
+import {BookMarkIcon, HeartIcon, ProfileIcon} from '../SvgIcons';
+import {Colors} from '../../utils/theme';
 
 interface ArticleCardProps {
   data: BlogPost;
@@ -20,7 +21,7 @@ const ArticleCard = (props: ArticleCardProps) => {
   const {width} = useWindowDimensions();
   const navigation: any = useNavigation();
   const source = {
-    html: props.data.content,
+    html: props.data.content.replace('h1>', 'p>'),
   };
 
   const navigateToSinglePost = (postSlug: string) => {
@@ -32,7 +33,10 @@ const ArticleCard = (props: ArticleCardProps) => {
       <View style={styles.cardHeader}>
         <View style={styles.autherHeader}>
           <ProfileIcon colorStroke="#666E80" />
-          <Text style={{fontFamily: 'Nunito-Medium'}}>Mohamed Elfit</Text>
+          <Text
+            style={{fontFamily: 'Nunito-Medium', color: Colors.text.primary}}>
+            Mohamed Elfit
+          </Text>
           <Text style={styles.textStyles}>17 june, 2022</Text>
         </View>
         <View style={styles.contentContainer}>
@@ -51,15 +55,9 @@ const ArticleCard = (props: ArticleCardProps) => {
         />
       </View>
       <View style={styles.cardHeader}>
-        {/* <Text style={styles.textStyles}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. In malesuada,
-          libero nec sodales elementum, tortor lacus aliquam mauris, nec euismod
-        </Text> */}
-        <RenderHtml
-          contentWidth={width}
-          source={source}
-          // style={styles.textStyles}
-        />
+        <Text style={styles.textStyles}>
+          <RenderHtml contentWidth={width} source={source} />
+        </Text>
       </View>
       <View style={styles.footerContainer}>
         <View style={styles.cardHeader}>
@@ -71,7 +69,13 @@ const ArticleCard = (props: ArticleCardProps) => {
             <Text style={styles.buttonText}>Read</Text>
           </TouchableOpacity>
         </View>
-        <Text style={styles.textStyles}>{props.data.helpfulCount} helpful</Text>
+        <View style={styles.footerIcon}>
+          <View style={styles.footerIcon}>
+            <Text style={styles.textStyles}>{props.data.helpfulCount}</Text>
+            <HeartIcon />
+          </View>
+          <BookMarkIcon />
+        </View>
       </View>
     </View>
   );
@@ -81,7 +85,7 @@ export default ArticleCard;
 
 const styles = StyleSheet.create({
   cardContainer: {
-    backgroundColor: 'white',
+    backgroundColor: Colors.white,
     paddingVertical: 20,
     borderRadius: 10,
     marginVertical: 10,
@@ -107,7 +111,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textStyles: {
-    color: '#98A1B3',
+    color: Colors.text.tertiary,
     fontFamily: 'Nunito-Regular',
   },
   mainTitle: {
@@ -126,8 +130,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     paddingHorizontal: 15,
     paddingVertical: 10,
-    marginVertical: 20,
-
+    marginVertical: 5,
     borderStyle: 'solid',
     borderWidth: 1,
     width: '100%',
@@ -144,5 +147,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingRight: 20,
+  },
+  footerIcon: {
+    flexDirection: 'row',
+    gap: 10,
+    alignItems: 'center',
   },
 });

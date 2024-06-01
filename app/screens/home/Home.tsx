@@ -1,9 +1,8 @@
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {ScrollView, StyleSheet, View} from 'react-native';
 import React, {useMemo, useState} from 'react';
 import ArticleCard from '../../modules/homeApp/ArticleCard';
 import BlogService, {BlogPost} from '../../server/blog/BlogService';
 import {RefreshControl} from 'react-native-gesture-handler';
-import HeadText from '../../modules/elements/HeadText';
 import ScreenLayout from '../../modules/elements/ScreenLayout';
 
 const Home = () => {
@@ -12,8 +11,6 @@ const Home = () => {
   const [featuredArticles, setFeaturedArticles] = useState<BlogPost[]>([]);
   const [newestArticles, setNewestArticles] = useState<BlogPost[]>([]);
   const [refreshing, setRefreshing] = useState(false);
-
-  console.log(featuredArticles);
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -42,6 +39,7 @@ const Home = () => {
     <ScreenLayout>
       <ScrollView
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.screenContainer}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -49,7 +47,7 @@ const Home = () => {
             tintColor={'#F6E117'}
           />
         }>
-        <HeadText content="Top Articles" />
+        {/* <LatestArticels /> */}
         <View style={styles.ArticlesContainer}>
           {featuredArticles.map(article => (
             <ArticleCard key={article._id} data={article} />
@@ -63,9 +61,13 @@ const Home = () => {
 export default Home;
 
 const styles = StyleSheet.create({
+  screenContainer: {
+    marginVertical: 20,
+  },
   ArticlesContainer: {
     flexDirection: 'column',
     justifyContent: 'space-between',
     gap: 20,
+    marginBottom: 20,
   },
 });

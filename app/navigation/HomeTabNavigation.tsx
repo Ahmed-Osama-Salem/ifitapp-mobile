@@ -3,11 +3,11 @@
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Home from '../screens/home/Home';
+// import Home from '../screens/home/Home';
 import FAQ from '../screens/faq/FAQ';
 import Blog from '../screens/Blog/Blog';
 import Settings from '../screens/settings/Settings';
-import HeaderNav from '../screens/home/components/HeaderNav';
+// import HeaderNav from '../screens/home/components/HeaderNav';
 import {
   AskIcon,
   BlogIcon,
@@ -17,6 +17,7 @@ import {
 } from '../modules/SvgIcons';
 import AskQuestsion from '../screens/askQuestsion/AskQuestsion';
 import CustomTabBarButton from '../modules/elements/CustomTabBarButton';
+import DrawerNavigator from './DrawerNavigator';
 
 const isIos = Platform.OS === 'ios';
 
@@ -32,15 +33,16 @@ const HomeTabNavigation = () => {
         tabBarStyle: appTabStyles.appTabsContainer,
         tabBarLabelStyle: appTabStyles.noneActiveTab,
         tabBarShowLabel: false,
-        header() {
-          return <HeaderNav />;
-        },
+        // header() {
+        //   return <HeaderNav />;
+        // },
       }}>
       <Tab.Screen
         name="Home"
-        component={Home}
+        component={DrawerNavigator}
         options={{
           tabBarLabel: 'Home',
+          headerShown: false,
           tabBarIcon: ({focused}) => (
             <View style={appTabStyles.tabItem}>
               <HomeIcon colorStroke={focused ? '#F6E117' : '#666E80'} />
@@ -59,6 +61,7 @@ const HomeTabNavigation = () => {
         component={Blog}
         options={{
           tabBarLabel: 'Blog',
+          headerShown: false,
           tabBarIcon: ({focused}) => (
             <View style={appTabStyles.tabItem}>
               <BlogIcon colorStroke={focused ? '#F6E117' : '#666E80'} />

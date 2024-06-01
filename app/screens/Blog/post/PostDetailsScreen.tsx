@@ -4,6 +4,7 @@ import HeaderNav from '../../home/components/HeaderNav';
 import PostInteractions from './components/PostInteractions';
 import RelatedArticelCard from '../../../modules/homeApp/RelatedArticelCard';
 import BackArrowButton from '../../../modules/elements/BackArrowButton';
+import {Colors} from '../../../utils/theme';
 
 const PostDetailsScreen = ({route}: any) => {
   const {slug} = route.params;
@@ -30,14 +31,30 @@ const PostDetailsScreen = ({route}: any) => {
               />
               <View style={styles.autherContent}>
                 <View style={styles.autherContainer}>
-                  <Text style={{fontWeight: '500'}}>Mohamed ElFit</Text>
+                  <Text
+                    style={{
+                      fontFamily: 'Nunito-Bold',
+                      color: Colors.text.secondary,
+                    }}>
+                    Mohamed ElFit
+                  </Text>
                   <Text style={styles.boldText}>Follow</Text>
                 </View>
                 <View style={styles.autherContainer}>
-                  <Text style={{fontFamily: 'Nunito-Regular'}}>
+                  <Text
+                    style={{
+                      fontFamily: 'Nunito-Regular',
+                      color: Colors.text.tertiary,
+                    }}>
                     Published in 22 jun .
                   </Text>
-                  <Text style={{fontFamily: 'Nunito-Regular'}}>6 min read</Text>
+                  <Text
+                    style={{
+                      fontFamily: 'Nunito-Regular',
+                      color: Colors.text.tertiary,
+                    }}>
+                    6 min read
+                  </Text>
                 </View>
               </View>
             </View>
@@ -69,9 +86,9 @@ const PostDetailsScreen = ({route}: any) => {
             <View style={{marginVertical: 20, gap: 20}}>
               <Text
                 style={{
-                  fontWeight: '700',
                   fontSize: 28,
                   fontFamily: 'Nunito-Bold',
+                  color: Colors.text.primary,
                 }}>
                 Summry
               </Text>
@@ -95,9 +112,9 @@ const PostDetailsScreen = ({route}: any) => {
             <View style={{marginVertical: 30}}>
               <Text
                 style={{
-                  fontWeight: '700',
                   fontSize: 28,
                   fontFamily: 'Nunito-Bold',
+                  color: Colors.text.primary,
                 }}>
                 More From Elfit
               </Text>
@@ -111,9 +128,9 @@ const PostDetailsScreen = ({route}: any) => {
             <View style={{marginVertical: 30}}>
               <Text
                 style={{
-                  fontWeight: '700',
                   fontSize: 28,
                   fontFamily: 'Nunito-Bold',
+                  color: Colors.text.primary,
                 }}>
                 Related Articels
               </Text>
@@ -146,8 +163,8 @@ const styles = StyleSheet.create({
   },
   postTitle: {
     fontSize: 24,
-    fontWeight: '700',
     fontFamily: 'Nunito-ExtraBold',
+    color: Colors.text.primary,
   },
   autherImgStyle: {
     width: 56,
@@ -166,8 +183,8 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   boldText: {
-    fontWeight: '700',
     fontFamily: 'Nunito-Bold',
+    color: '#98A1B3',
   },
   contentStyle: {
     fontSize: 16,

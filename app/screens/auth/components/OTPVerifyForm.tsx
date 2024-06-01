@@ -9,7 +9,7 @@ import React, {useRef, useState} from 'react';
 import AuthService from '../../../server/auth/AuthService';
 import Toast from 'react-native-toast-message';
 import {useNavigation} from '@react-navigation/native';
-import {Shadows} from '../../../utils/theme';
+import {Colors, Shadows} from '../../../utils/theme';
 
 const OTPVerifyForm = () => {
   const [otp, setOTP] = useState('');
@@ -131,6 +131,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     textAlign: 'center',
     borderRadius: 5,
+    color: Colors.text.primary,
   },
   focusedInput: {
     borderColor: '#F6E117',
@@ -152,11 +153,13 @@ const styles = StyleSheet.create({
   },
   formHeader: {
     fontSize: 25,
-    fontWeight: '700',
+    fontFamily: 'Nunito-Bold',
+    color: Colors.text.primary,
   },
   footerText: {
     fontSize: 16,
-    fontWeight: '500',
+    fontFamily: 'Nunito-Medium',
     marginVertical: 10,
+    color: Colors.text.secondary,
   },
 });

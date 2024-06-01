@@ -1,19 +1,23 @@
 import {Image, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import ScreenLayout from '../../modules/elements/ScreenLayout';
-import {Fonts} from '../../utils/theme';
+import {Fonts, Shadows} from '../../utils/theme';
+import {useGetUserData} from '../../helpers/hooks/useGetUserData';
 
 const Settings = () => {
+  const {user} = useGetUserData();
+
   return (
     <ScreenLayout>
       <View style={styles.profileContainer}>
         <Image
           source={{
-            uri: 'https://media-hbe1-2.cdn.whatsapp.net/v/t61.24694-24/413127216_1132024591149012_8584608521826069019_n.jpg?ccb=11-4&oh=01_Q5AaIBWH_yUfHEYOVg_jPUPjAEtIEZG-XpFD2ogCNQieDvpM&oe=6639F6AB&_nc_sid=e6ed6c&_nc_cat=102',
+            uri: 'https://img.freepik.com/premium-photo/civil-engineer-digital-avatar-generative-ai_934475-9025.jpg',
           }}
           style={styles.profileImgStyle}
         />
-        <Text style={Fonts.title}>Mohamed elfit</Text>
+        <Text style={Fonts.title}>{user?.name}</Text>
+        <Text style={Fonts.body}>{user?.phone}</Text>
       </View>
     </ScreenLayout>
   );
@@ -32,5 +36,6 @@ const styles = StyleSheet.create({
     height: 100,
     marginVertical: 20,
     borderRadius: 100,
+    ...Shadows.container,
   },
 });

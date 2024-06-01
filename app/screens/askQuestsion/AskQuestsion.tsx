@@ -11,7 +11,7 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 import ScreenLayout from '../../modules/elements/ScreenLayout';
 import BackArrowButton from '../../modules/elements/BackArrowButton';
-import {Buttons, Fonts} from '../../utils/theme';
+import {Buttons, Colors, Fonts} from '../../utils/theme';
 import {TextInput} from 'react-native';
 import {AskIcon} from '../../modules/SvgIcons';
 import {BottomSheetModal} from '@gorhom/bottom-sheet';
@@ -105,7 +105,9 @@ const AskQuestion = () => {
         showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
           <BackArrowButton />
-          <Text style={Fonts.title}>Ask a Question</Text>
+          <Text style={{...Fonts.title, color: Colors.text.primary}}>
+            Ask a Question
+          </Text>
         </View>
         <Formik
           initialValues={{title: '', content: ''}}
@@ -113,7 +115,9 @@ const AskQuestion = () => {
           onSubmit={values => console.log(values)}>
           {({handleChange, handleBlur, handleSubmit, values}) => (
             <View style={{paddingBottom: 40}}>
-              <Text style={Fonts.body}>Title</Text>
+              <Text style={{...Fonts.body, color: Colors.text.secondary}}>
+                Title
+              </Text>
               <TextInput
                 onChangeText={handleChange('title')}
                 onBlur={handleBlur('title')}
@@ -122,21 +126,32 @@ const AskQuestion = () => {
                 placeholderTextColor="#98A1B3"
                 style={{...styles.QAinput, height: 58}}
               />
-              <Text style={Fonts.body}>Content</Text>
+              <Text style={{...Fonts.body, color: Colors.text.secondary}}>
+                Content
+              </Text>
               <TextInput
                 onChangeText={handleChange('content')}
                 onBlur={handleBlur('content')}
                 value={values.content}
                 placeholder="Ex: How does power generation work?"
                 placeholderTextColor="#98A1B3"
-                style={{...styles.QAinput, height: 200}}
+                style={{
+                  ...styles.QAinput,
+                  height: 200,
+                  flexDirection: 'row',
+                  alignItems: 'flex-start',
+                  textAlignVertical: 'top',
+                }}
                 multiline
               />
               <View style={styles.selectWrapper}>
                 <View style={styles.selectContainer}>
                   <View style={styles.selectionHeader}>
                     <TouchableOpacity onPress={handlePresentModalPress}>
-                      <Text>Select a Field</Text>
+                      <Text
+                        style={{...Fonts.body, color: Colors.text.secondary}}>
+                        Select a Field
+                      </Text>
                     </TouchableOpacity>
                     <ResetSelectionButton
                       onPress={handleResetParentSelection}
@@ -152,7 +167,10 @@ const AskQuestion = () => {
                   <View style={styles.selectContainer}>
                     <View style={styles.selectionHeader}>
                       <TouchableOpacity onPress={handlePresentSubCategoryModal}>
-                        <Text>Select a Specialization</Text>
+                        <Text
+                          style={{...Fonts.body, color: Colors.text.secondary}}>
+                          Select a Specialization
+                        </Text>
                       </TouchableOpacity>
                       <ResetSelectionButton onPress={handleResetSubSelection} />
                     </View>
@@ -214,7 +232,7 @@ const AskQuestion = () => {
 export default AskQuestion;
 
 const styles = StyleSheet.create({
-  mainContainer: {flex: 1},
+  mainContainer: {flex: 1, paddingHorizontal: 20},
   header: {
     marginVertical: 20,
     flexDirection: 'row',
@@ -228,6 +246,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 10,
     padding: 10,
+    color: Colors.text.primary,
   },
   buttonContent: {
     flexDirection: 'row',

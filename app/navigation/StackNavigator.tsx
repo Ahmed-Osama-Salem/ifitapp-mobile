@@ -19,7 +19,11 @@ const StackNavigator = () => {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="otp-verify" component={OTPVerify} />
-        <Stack.Screen name="HomeApp" component={HomeTabNavigation} />
+        <Stack.Screen
+          name="HomeApp"
+          component={HomeTabNavigation}
+          options={{headerShown: false}}
+        />
         <Stack.Screen name="PostDetails" component={PostDetailsScreen} />
       </Stack.Navigator>
     </NavigationContainer>

@@ -33,9 +33,7 @@ const HomeTabNavigation = () => {
         tabBarStyle: appTabStyles.appTabsContainer,
         tabBarLabelStyle: appTabStyles.noneActiveTab,
         tabBarShowLabel: false,
-        // header() {
-        //   return <HeaderNav />;
-        // },
+        animation: 'shift',
       }}>
       <Tab.Screen
         name="Home"

@@ -1,3 +1,5 @@
+
+
 # Resolve react_native_pods.rb with node to allow for hoisting
 require Pod::Executable.execute_command('node', ['-p',
   'require.resolve(
@@ -23,18 +25,30 @@ target 'ifitapp' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  target 'ifitappTests' do
-    inherit! :complete
-    # Pods for testing
+ post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    if target.name == 'RCT-Folly'
+      target.build_configurations.each do |config|
+        config.build_settings['HEADER_SEARCH_PATHS'] ||= ['$(inherited)']
+        config.build_settings['HEADER_SEARCH_PATHS'] << '"${PODS_ROOT}/Headers/Private/RCT-Folly"'
+      end
+    end
   end
+  
+  # Fix Yoga missing headers
+  private_yoga_headers = "#{installer.sandbox.root}/Headers/Private/Yoga"
+  public_yoga_headers = "#{installer.sandbox.root}/Headers/Public/Yoga"
 
-  post_install do |installer|
-    # https://github.com/facebook/react-native/blob/main/packages/react-native/scripts/react_native_pods.rb#L197-L202
-    react_native_post_install(
-      installer,
-      config[:reactNativePath],
-      :mac_catalyst_enabled => false,
-      # :ccache_enabled => true
-    )
-  end
+  FileUtils.mkdir_p(public_yoga_headers) unless Dir.exist?(public_yoga_headers)
+  system("rsync -a #{private_yoga_headers}/ #{public_yoga_headers}")
+
+
+  # Existing post-install tasks
+  react_native_post_install(
+    installer,
+    config[:reactNativePath],
+    :mac_catalyst_enabled => false,
+    # :ccache_enabled => true
+  )
+end
 end

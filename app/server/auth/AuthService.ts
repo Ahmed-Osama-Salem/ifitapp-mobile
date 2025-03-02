@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {appEnvConfig} from '../../utils/Config';
 interface RegisterPayload {
   email: string;
   password: string;
@@ -14,14 +15,12 @@ interface LoginPayload {
   password: string;
 }
 class AuthService {
+  private BATH_URL = appEnvConfig.BASE_URL;
   RegisterService = async (payload: RegisterPayload) => {
     console.log('====================================');
-    console.log('payload::', payload);
+    console.log('payload::', this.BATH_URL);
     console.log('====================================');
-    return await axios.post(
-      'https://backend-service-ifit.onrender.com/register',
-      payload,
-    );
+    return await axios.post(`${this.BATH_URL}auth/register`, payload);
   };
 
   VerifyOtpService = async (payload: VerifyOtpPayload) => {
@@ -29,7 +28,7 @@ class AuthService {
     console.log('payload::', payload);
     console.log('====================================');
     return await axios
-      .post('https://backend-service-ifit.onrender.com/verify', payload)
+      .post(`${this.BATH_URL}verify`, payload)
       .then(response => {
         return response;
       })
@@ -40,12 +39,9 @@ class AuthService {
 
   LoginService = async (payload: LoginPayload) => {
     console.log('====================================');
-    console.log('payload::', payload);
+    console.log('payload::', this.BATH_URL);
     console.log('====================================');
-    return axios.post(
-      'https://backend-service-ifit.onrender.com/login',
-      payload,
-    );
+    return axios.post(`${this.BATH_URL}auth/login`, payload);
   };
 }
 export default AuthService;

@@ -4,6 +4,7 @@ import ArticleCard from '../../modules/homeApp/ArticleCard';
 import BlogService, {BlogPost} from '../../server/blog/BlogService';
 import {RefreshControl} from 'react-native-gesture-handler';
 import ScreenLayout from '../../modules/elements/ScreenLayout';
+// import LatestArticels from './components/LatestArticels';
 
 const Home = () => {
   const articles = new BlogService();

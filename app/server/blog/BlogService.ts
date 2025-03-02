@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {appEnvConfig} from '../../utils/Config';
 
 export interface BlogPost {
   _id: string;
@@ -26,8 +27,10 @@ interface BlogPromise {
 }
 
 class BlogService {
+  private BATH_URL = appEnvConfig.BASE_URL;
+
   public async getBlogPosts(): Promise<BlogPromise> {
-    return await axios.get('https://backend-service-ifit.onrender.com/blog');
+    return await axios.get(this.BATH_URL + 'blog');
   }
 }
 

@@ -10,14 +10,14 @@ const CategoryItem = ({item, onPress, isSelected}: any) => {
           ? styles.container
           : {...styles.container, backgroundColor: '#f5f5f5'}
       }
-      onPress={() => onPress(item.name.en)}>
+      onPress={() => onPress(item.name)}>
       <Text
         style={
           !isSelected
             ? {...styles.text, color: 'gray'}
             : {...styles.text, color: '#000'}
         }>
-        {item.name.en}
+        {item.name}
       </Text>
     </TouchableOpacity>
   );

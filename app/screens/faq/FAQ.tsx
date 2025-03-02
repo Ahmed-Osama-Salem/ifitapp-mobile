@@ -1,14 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {RefreshControl, ScrollView, StyleSheet, View} from 'react-native';
-import React, {useMemo, useState} from 'react';
+import React, {useState} from 'react';
 import ScreenLayout from '../../modules/elements/ScreenLayout';
-import HeadText from '../../modules/elements/HeadText';
 import FAQCard from './components/FAQCard';
-import FAQService from '../../server/FAQ/FAQService';
 import TagsFilter from '../home/components/TagsFilter';
+import ScreenGradientHeader from 'Common/DynamicComponents/ScreenGradientHeader/ScreenGradientHeader';
 
 const FAQ = () => {
-  const FAQPromise = new FAQService();
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = React.useCallback(() => {
@@ -18,22 +16,9 @@ const FAQ = () => {
     }, 2000);
   }, []);
 
-  useMemo(() => {
-    FAQPromise.getFAQs()
-      .then(res => {
-        if (res) {
-          console.log(res.data.data.data);
-        }
-        return res;
-      })
-      .catch(err => {
-        console.log(err);
-        return;
-      });
-  }, []);
-
   return (
     <ScreenLayout>
+      <ScreenGradientHeader content="Questions" />
       <ScrollView
         showsVerticalScrollIndicator={false}
         refreshControl={
@@ -43,7 +28,6 @@ const FAQ = () => {
             tintColor={'#F6E117'}
           />
         }>
-        <HeadText content="Questions" />
         <TagsFilter />
         <View style={styles.faqContainer}>
           {[...Array(5)].map((_, index) => (
@@ -61,7 +45,7 @@ const styles = StyleSheet.create({
   faqContainer: {
     flexDirection: 'column',
     width: '100%',
-    marginVertical: 10,
+    paddingBottom: 60,
     gap: 10,
   },
 });

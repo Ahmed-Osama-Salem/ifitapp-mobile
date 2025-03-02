@@ -3,11 +3,9 @@
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-// import Home from '../screens/home/Home';
 import FAQ from '../screens/faq/FAQ';
 import Blog from '../screens/Blog/Blog';
 import Settings from '../screens/settings/Settings';
-// import HeaderNav from '../screens/home/components/HeaderNav';
 import {
   AskIcon,
   BlogIcon,
@@ -92,6 +90,7 @@ const HomeTabNavigation = () => {
         name="FAQ"
         component={FAQ}
         options={{
+          headerShown: false,
           tabBarLabel: 'FAQ',
           tabBarIcon: ({focused}) => (
             <View style={appTabStyles.tabItem}>
@@ -110,6 +109,7 @@ const HomeTabNavigation = () => {
         name="Settings"
         component={Settings}
         options={{
+          headerShown: false,
           tabBarIcon: ({focused}) => (
             <View style={appTabStyles.tabItem}>
               <ProfileIcon colorStroke={focused ? '#F6E117' : '#666E80'} />
@@ -143,6 +143,7 @@ const appTabStyles = StyleSheet.create({
     alignItems: 'center',
     top: 10,
     gap: 3,
+    width: 60,
   },
   noneActiveTab: {
     color: '#C9C9C9',

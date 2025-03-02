@@ -3,12 +3,14 @@ import React from 'react';
 import ScreenLayout from '../../modules/elements/ScreenLayout';
 import {Fonts, Shadows} from '../../utils/theme';
 import {useGetUserData} from '../../helpers/hooks/useGetUserData';
+import ScreenGradientHeader from 'Common/DynamicComponents/ScreenGradientHeader/ScreenGradientHeader';
 
 const Settings = () => {
   const {user} = useGetUserData();
 
   return (
     <ScreenLayout>
+      <ScreenGradientHeader content="Profile" />
       <View style={styles.profileContainer}>
         <Image
           source={{

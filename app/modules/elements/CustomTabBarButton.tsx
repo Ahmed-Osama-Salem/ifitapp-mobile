@@ -27,5 +27,8 @@ const styles = StyleSheet.create({
     height: 65,
     borderRadius: 35,
     backgroundColor: '#F6E117',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

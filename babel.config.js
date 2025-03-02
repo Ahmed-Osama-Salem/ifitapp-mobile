@@ -9,6 +9,17 @@ module.exports = {
 
     'react-native-reanimated/plugin',
     [
+      'module-resolver',
+      {
+        root: ['./app'],
+        extensions: ['.ios.js', '.android.js', '.js', '.ts', '.tsx', '.json'],
+        alias: {
+          //  tests: ['./tests/'],
+          //  "@components": "./src/components",
+        },
+      },
+    ],
+    [
       'module:react-native-dotenv',
       {
         moduleName: '@env',

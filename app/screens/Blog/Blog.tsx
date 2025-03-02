@@ -1,17 +1,14 @@
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
-import React, {useMemo, useState} from 'react';
-import BlogService, {BlogPost} from '../../server/blog/BlogService';
+import {ScrollView, StyleSheet} from 'react-native';
+import React, {useState} from 'react';
 import ScreenLayout from '../../modules/elements/ScreenLayout';
 import {RefreshControl} from 'react-native-gesture-handler';
-import HeadText from '../../modules/elements/HeadText';
 import ArticleCard from '../../modules/homeApp/ArticleCard';
 import TagsFilter from '../home/components/TagsFilter';
+import ScreenGradientHeader from 'Common/DynamicComponents/ScreenGradientHeader/ScreenGradientHeader';
 
 const Blog = () => {
-  const articles = new BlogService();
-
-  const [featuredArticles, setFeaturedArticles] = useState<BlogPost[]>([]);
-  const [newestArticles, setNewestArticles] = useState<BlogPost[]>([]);
+  // const [featuredArticles, setFeaturedArticles] = useState<BlogPost[]>([]);
+  // const [newestArticles, setNewestArticles] = useState<BlogPost[]>([]);
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = React.useCallback(() => {
@@ -21,23 +18,9 @@ const Blog = () => {
     }, 2000);
   }, []);
 
-  useMemo(() => {
-    articles
-      .getBlogPosts()
-      .then(res => {
-        if (res) {
-          setFeaturedArticles(res.data.data.data.featured);
-          setNewestArticles(res.data.data.data.newest);
-        }
-        return res;
-      })
-      .catch(err => {
-        console.log(err);
-        return err;
-      });
-  }, []);
   return (
     <ScreenLayout>
+      <ScreenGradientHeader content="Articles" />
       <ScrollView
         showsVerticalScrollIndicator={false}
         refreshControl={
@@ -47,13 +30,12 @@ const Blog = () => {
             tintColor={'#F6E117'}
           />
         }>
-        <HeadText content="Articles" />
         <TagsFilter />
-        <View style={styles.ArticlesContainer}>
+        {/* <View style={styles.ArticlesContainer}>
           {featuredArticles.map(article => (
             <ArticleCard key={article._id} data={article} />
           ))}
-        </View>
+        </View> */}
       </ScrollView>
     </ScreenLayout>
   );

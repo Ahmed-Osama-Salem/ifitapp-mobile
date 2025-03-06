@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/no-unstable-nested-components */
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {I18nManager, Platform, StyleSheet, View} from 'react-native';
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import FAQ from '../screens/faq/FAQ';
@@ -16,8 +16,14 @@ import {
 import AskQuestsion from '../screens/askQuestsion/AskQuestsion';
 import CustomTabBarButton from '../modules/elements/CustomTabBarButton';
 import DrawerNavigator from './DrawerNavigator';
+import TypographyText from 'Common/DynamicComponents/TypographyText/TypographyText';
+import {moderateScale} from 'react-native-size-matters';
 
 const isIos = Platform.OS === 'ios';
+
+const EmptyComponent = () => {
+  return <></>;
+};
 
 const HomeTabNavigation = () => {
   const Tab = createBottomTabNavigator();
@@ -42,12 +48,11 @@ const HomeTabNavigation = () => {
           tabBarIcon: ({focused}) => (
             <View style={appTabStyles.tabItem}>
               <HomeIcon colorStroke={focused ? '#F6E117' : '#666E80'} />
-              <Text
-                style={
-                  focused ? {color: '#F6E117'} : appTabStyles.noneActiveTab
-                }>
-                Home
-              </Text>
+              <TypographyText
+                content="Home"
+                type={focused ? '12_Medium' : '12_Reguler'}
+                color={focused ? 'sunYellow' : 'ifitGrey'}
+              />
             </View>
           ),
         }}
@@ -61,26 +66,25 @@ const HomeTabNavigation = () => {
           tabBarIcon: ({focused}) => (
             <View style={appTabStyles.tabItem}>
               <BlogIcon colorStroke={focused ? '#F6E117' : '#666E80'} />
-              <Text
-                style={
-                  focused ? {color: '#F6E117'} : appTabStyles.noneActiveTab
-                }>
-                Blog
-              </Text>
+              <TypographyText
+                content="Blog"
+                type={focused ? '12_Medium' : '12_Reguler'}
+                color={focused ? 'sunYellow' : 'ifitGrey'}
+              />
             </View>
           ),
         }}
       />
       <Tab.Screen
         name="Ask"
-        component={AskQuestsion}
+        component={EmptyComponent}
         options={{
+          headerShown: false,
           tabBarIcon: ({focused}) => (
             <View>
               <AskIcon colorStroke={focused ? '#fff' : '#000'} />
             </View>
           ),
-
           tabBarButton: props => {
             return <CustomTabBarButton {...props} />;
           },
@@ -95,12 +99,11 @@ const HomeTabNavigation = () => {
           tabBarIcon: ({focused}) => (
             <View style={appTabStyles.tabItem}>
               <FQAIcon colorStroke={focused ? '#F6E117' : '#666E80'} />
-              <Text
-                style={
-                  focused ? {color: '#F6E117'} : appTabStyles.noneActiveTab
-                }>
-                Q&A
-              </Text>
+              <TypographyText
+                content="Q&A"
+                type={focused ? '12_Medium' : '12_Reguler'}
+                color={focused ? 'sunYellow' : 'ifitGrey'}
+              />
             </View>
           ),
         }}
@@ -113,12 +116,11 @@ const HomeTabNavigation = () => {
           tabBarIcon: ({focused}) => (
             <View style={appTabStyles.tabItem}>
               <ProfileIcon colorStroke={focused ? '#F6E117' : '#666E80'} />
-              <Text
-                style={
-                  focused ? {color: '#F6E117'} : appTabStyles.noneActiveTab
-                }>
-                Me
-              </Text>
+              <TypographyText
+                content="Account"
+                type={focused ? '12_Medium' : '12_Reguler'}
+                color={focused ? 'sunYellow' : 'ifitGrey'}
+              />
             </View>
           ),
         }}
@@ -137,17 +139,19 @@ const appTabStyles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 3,
     elevation: 0,
+    direction: I18nManager.isRTL ? 'rtl' : 'ltr',
+    paddingHorizontal: moderateScale(8),
   },
   tabItem: {
     flexDirection: 'column',
     alignItems: 'center',
     top: 10,
-    gap: 3,
+    gap: I18nManager.isRTL ? 0 : 3,
     width: 60,
   },
   noneActiveTab: {
     color: '#C9C9C9',
-    fontSize: 14,
-    fontFamily: 'Nunito-Regular',
+    // fontSize: 14,
+    // fontFamily: 'Nunito-Regular',
   },
 });

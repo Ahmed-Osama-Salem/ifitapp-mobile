@@ -1,4 +1,5 @@
 import {
+  I18nManager,
   Image,
   Platform,
   StyleSheet,
@@ -33,7 +34,7 @@ const HeaderNav = ({navigation}: {navigation: NavProp}) => {
             content="iFit"
             type="18_Bold"
             color="dark"
-            styles={styles.typography}
+            styles={I18nManager.isRTL ? styles.typographyAr : styles.typography}
           />
         </View>
         <View style={styles.controlContainer}>
@@ -82,6 +83,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 38,
     top: 20,
+  },
+  typographyAr: {
+    position: 'absolute',
+    right: -33,
+    top: 13,
   },
   controlContainer: {
     flexDirection: 'row',

@@ -1,28 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {
+  I18nManager,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React from 'react';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import ScreenLayout from '../../modules/elements/ScreenLayout';
-import BackArrowButton from '../../modules/elements/BackArrowButton';
 import {Buttons, Colors, Fonts} from '../../utils/theme';
 import {TextInput} from 'react-native';
 import {AskIcon} from '../../modules/SvgIcons';
-import {BottomSheetModal} from '@gorhom/bottom-sheet';
-import CatrgoryPicker from './components/CategoryPicker';
-import useFetchCategories from './hooks/useFetchCategories';
-import CustomBottomSheet from './components/CustomBottomSheet';
-import CategoryItem from './components/CategoryItem';
-import TagItem from '../../modules/elements/TagItem';
-import SelectPlaceholder from './components/SelectPlaceholder';
-import ResetSelectionButton from './components/ResetSelectionButton';
-import {FlatList} from 'react-native-gesture-handler';
+
+import TypographyText from 'Common/DynamicComponents/TypographyText/TypographyText';
 
 const questionSchema = Yup.object().shape({
   title: Yup.string().required('Required'),
@@ -30,94 +23,24 @@ const questionSchema = Yup.object().shape({
 });
 
 const AskQuestion = () => {
-  const {categories, fetchCategories} = useFetchCategories();
-  const [selectedParentCategory, setSelectedParentCategory] = useState('');
-  const [subCategories, setSubCategories] = useState([]);
-  const [selectedSubCategory, setSelectedSubCategory] = useState('');
-
   // ref for parent category bottom sheet
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-
-  const handlePresentModalPress = useCallback(() => {
-    bottomSheetModalRef.current?.present();
-  }, []);
-
-  const closeParentCategoryModal = () => {
-    if (selectedParentCategory !== '') {
-      bottomSheetModalRef.current?.close();
-    }
-  };
-
-  const findSubCategoriesOfTheParent = () => {
-    if (selectedParentCategory !== '') {
-      const subcategoryObj = categories.find(
-        el => el.name.en === selectedParentCategory,
-      );
-      setSubCategories(subcategoryObj.subCategory);
-    }
-  };
-
-  // ref for parent category bottom sheet
-  const bottomSheetSubCategoryRef = useRef<BottomSheetModal>(null);
-
-  const handlePresentSubCategoryModal = useCallback(() => {
-    bottomSheetSubCategoryRef.current?.present();
-    findSubCategoriesOfTheParent();
-  }, [selectedParentCategory, categories]);
-
-  const closeSubCategoryModal = () => {
-    if (selectedSubCategory !== '') {
-      bottomSheetSubCategoryRef.current?.close();
-    }
-  };
-
-  const handleResetParentSelection = () => {
-    setSelectedParentCategory('');
-  };
-
-  const handleResetSubSelection = () => {
-    setSelectedSubCategory('');
-  };
-
-  const isSelected = (category: string, selectedCategory: string) => {
-    if (category === selectedCategory) {
-      return true;
-    }
-  };
-
-  useEffect(() => {
-    closeParentCategoryModal();
-  }, [selectedParentCategory]);
-
-  useEffect(() => {
-    closeSubCategoryModal();
-  }, [selectedSubCategory]);
-
-  useEffect(() => {
-    fetchCategories();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <ScreenLayout>
       <ScrollView
-        style={styles.mainContainer}
+        contentContainerStyle={styles.mainContainer}
         showsVerticalScrollIndicator={false}>
-        <View style={styles.header}>
-          <BackArrowButton />
-          <Text style={{...Fonts.title, color: Colors.text.primary}}>
-            Ask a Question
-          </Text>
-        </View>
         <Formik
           initialValues={{title: '', content: ''}}
           validationSchema={questionSchema}
           onSubmit={values => console.log(values)}>
           {({handleChange, handleBlur, handleSubmit, values}) => (
-            <View style={{paddingBottom: 40}}>
-              <Text style={{...Fonts.body, color: Colors.text.secondary}}>
-                Title
-              </Text>
+            <View style={styles.formContainer}>
+              <TypographyText
+                content="Title"
+                type="16_Reguler"
+                color="ifitGrey"
+              />
               <TextInput
                 onChangeText={handleChange('title')}
                 onBlur={handleBlur('title')}
@@ -126,9 +49,11 @@ const AskQuestion = () => {
                 placeholderTextColor="#98A1B3"
                 style={{...styles.QAinput, height: 58}}
               />
-              <Text style={{...Fonts.body, color: Colors.text.secondary}}>
-                Content
-              </Text>
+              <TypographyText
+                content="content"
+                type="16_Reguler"
+                color="ifitGrey"
+              />
               <TextInput
                 onChangeText={handleChange('content')}
                 onBlur={handleBlur('content')}
@@ -147,7 +72,7 @@ const AskQuestion = () => {
               <View style={styles.selectWrapper}>
                 <View style={styles.selectContainer}>
                   <View style={styles.selectionHeader}>
-                    <TouchableOpacity onPress={handlePresentModalPress}>
+                    {/* <TouchableOpacity onPress={handlePresentModalPress}>
                       <Text
                         style={{...Fonts.body, color: Colors.text.secondary}}>
                         Select a Field
@@ -155,34 +80,9 @@ const AskQuestion = () => {
                     </TouchableOpacity>
                     <ResetSelectionButton
                       onPress={handleResetParentSelection}
-                    />
+                    /> */}
                   </View>
-                  {selectedParentCategory !== '' ? (
-                    <TagItem text={selectedParentCategory} />
-                  ) : (
-                    <SelectPlaceholder onPress={handlePresentModalPress} />
-                  )}
                 </View>
-                {selectedParentCategory !== '' ? (
-                  <View style={styles.selectContainer}>
-                    <View style={styles.selectionHeader}>
-                      <TouchableOpacity onPress={handlePresentSubCategoryModal}>
-                        <Text
-                          style={{...Fonts.body, color: Colors.text.secondary}}>
-                          Select a Specialization
-                        </Text>
-                      </TouchableOpacity>
-                      <ResetSelectionButton onPress={handleResetSubSelection} />
-                    </View>
-                    {selectedSubCategory !== '' ? (
-                      <TagItem text={selectedSubCategory} />
-                    ) : (
-                      <SelectPlaceholder
-                        onPress={handlePresentSubCategoryModal}
-                      />
-                    )}
-                  </View>
-                ) : null}
               </View>
 
               <TouchableOpacity
@@ -199,32 +99,13 @@ const AskQuestion = () => {
         </Formik>
       </ScrollView>
 
-      <CatrgoryPicker
+      {/* <CatrgoryPicker
         ref={bottomSheetModalRef}
         categories={categories}
         parentCategory={(value: string) => {
           setSelectedParentCategory(value);
         }}
-      />
-      <CustomBottomSheet ref={bottomSheetSubCategoryRef}>
-        <FlatList
-          data={subCategories}
-          style={styles.listStyle}
-          scrollEnabled
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.listContaier}
-          keyExtractor={item => item._id.toString()}
-          renderItem={({item}) => (
-            <CategoryItem
-              item={item}
-              isSelected={isSelected(item.name.en, selectedSubCategory)}
-              onPress={sub => {
-                setSelectedSubCategory(sub);
-              }}
-            />
-          )}
-        />
-      </CustomBottomSheet>
+      /> */}
     </ScreenLayout>
   );
 };
@@ -232,7 +113,12 @@ const AskQuestion = () => {
 export default AskQuestion;
 
 const styles = StyleSheet.create({
-  mainContainer: {flex: 1, paddingHorizontal: 20},
+  mainContainer: {
+    flex: 1,
+    paddingHorizontal: 20,
+    alignItems: 'center',
+    direction: I18nManager.isRTL ? 'rtl' : 'ltr',
+  },
   header: {
     marginVertical: 20,
     flexDirection: 'row',
@@ -276,5 +162,9 @@ const styles = StyleSheet.create({
     gap: 10,
     width: '100%',
     flexGrow: 1,
+  },
+  formContainer: {
+    paddingBottom: 40,
+    width: '100%',
   },
 });

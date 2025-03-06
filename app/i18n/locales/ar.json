@@ -59,6 +59,21 @@
     "Quantity": "الكميه",
     "Top_Items": "أفضل مستلزمات الزفاف",
     "Questions": "الاسئلة",
-    "Articles": "المقالات"
+    "Articles": "المقالات",
+    "iFit": "فيت",
+    "Home": "الرئيسية",
+    "Settings": "الاعدادات",
+    "Blog": "المدونة",
+    "Account": "الحساب",
+    "Q&A": "الاسئلة",
+    "Ask a Question": "اسال سؤال",
+    "change_lang": "تغيير اللغة",
+    "arabic": "العربية",
+    "english": "الانجليزية",
+    "language": "اللغة",
+    "Dont_have_account?": "ليس لديك حساب؟",
+    "Make_account": "انشاء حساب",
+    "Title": "العنوان",
+    "content": "المحتوى"
   }
 }

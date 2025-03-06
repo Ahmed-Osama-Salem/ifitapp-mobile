@@ -1,14 +1,17 @@
-import {ScrollView, StyleSheet} from 'react-native';
-import React, {useState} from 'react';
+import {FlatList, ScrollView, StyleSheet} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import ScreenLayout from '../../modules/elements/ScreenLayout';
 import {RefreshControl} from 'react-native-gesture-handler';
 import ArticleCard from '../../modules/homeApp/ArticleCard';
 import TagsFilter from '../home/components/TagsFilter';
 import ScreenGradientHeader from 'Common/DynamicComponents/ScreenGradientHeader/ScreenGradientHeader';
+import {RootState, store} from 'Redux/Store';
+import {fetchBlogs} from 'Redux/Slices/Blog/BlogSlice';
+import {useSelector} from 'react-redux';
+import {moderateScale} from 'react-native-size-matters';
 
 const Blog = () => {
-  // const [featuredArticles, setFeaturedArticles] = useState<BlogPost[]>([]);
-  // const [newestArticles, setNewestArticles] = useState<BlogPost[]>([]);
+  const {blogs} = useSelector((state: RootState) => state.blogs);
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = React.useCallback(() => {
@@ -18,11 +21,16 @@ const Blog = () => {
     }, 2000);
   }, []);
 
+  useEffect(() => {
+    store.dispatch(fetchBlogs()).unwrap();
+  }, []);
+
   return (
     <ScreenLayout>
-      <ScreenGradientHeader content="Articles" />
+      <ScreenGradientHeader content="Blog" />
       <ScrollView
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.screenContainer}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -30,12 +38,14 @@ const Blog = () => {
             tintColor={'#F6E117'}
           />
         }>
-        <TagsFilter />
-        {/* <View style={styles.ArticlesContainer}>
-          {featuredArticles.map(article => (
-            <ArticleCard key={article._id} data={article} />
-          ))}
-        </View> */}
+        {/* <TagsFilter /> */}
+        <FlatList
+          data={blogs}
+          keyExtractor={item => item.id.toString()}
+          renderItem={({item}) => <ArticleCard data={item} />}
+          scrollEnabled={false}
+          contentContainerStyle={styles.ArticlesContainer}
+        />
       </ScrollView>
     </ScreenLayout>
   );
@@ -47,6 +57,9 @@ const styles = StyleSheet.create({
   ArticlesContainer: {
     flexDirection: 'column',
     justifyContent: 'space-between',
-    gap: 20,
+    paddingHorizontal: moderateScale(10),
+  },
+  screenContainer: {
+    paddingBottom: 40,
   },
 });

@@ -65,6 +65,15 @@
 		<string>Nunito-Regular.ttf</string>
 		<string>Nunito-SemiBold.ttf</string>
 		<string>Nunito-SemiBoldItalic.ttf</string>
+		<string>NotoKufiArabic-Black.ttf</string>
+		<string>NotoKufiArabic-Bold.ttf</string>
+		<string>NotoKufiArabic-ExtraBold.ttf</string>
+		<string>NotoKufiArabic-ExtraLight.ttf</string>
+		<string>NotoKufiArabic-Light.ttf</string>
+		<string>NotoKufiArabic-Medium.ttf</string>
+		<string>NotoKufiArabic-Regular.ttf</string>
+		<string>NotoKufiArabic-SemiBold.ttf</string>
+		<string>NotoKufiArabic-Thin.ttf</string>
 	</array>
 </dict>
 </plist>

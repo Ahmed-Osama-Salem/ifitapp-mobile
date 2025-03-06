@@ -4,11 +4,11 @@ import {moderateScale} from 'react-native-size-matters';
 const isRTL = () => I18nManager.isRTL;
 
 export const Fonts = {
-  FONT_FAMILY_EXTRABOLD: isRTL() ? 'Nunito-ExtraBold' : 'Nunito-Bold',
-  FONT_FAMILY_BOLD: isRTL() ? 'Nunito-Bold' : 'Nunito-Bold',
-  FONT_FAMILY_SEMIBOLD: isRTL() ? 'Nunito-Medium' : 'Nunito-Medium',
-  FONT_FAMILY_REGULAR: isRTL() ? 'Nunito-Regular' : 'Nunito-Regular',
-  FONT_FAMILY_MEDIUM: isRTL() ? 'Nunito-Medium' : 'Nunito-Medium',
+  FONT_FAMILY_EXTRABOLD: isRTL() ? 'NotoKufiArabic-ExtraBold' : 'Nunito-Bold',
+  FONT_FAMILY_BOLD: isRTL() ? 'NotoKufiArabic-Bold' : 'Nunito-Bold',
+  FONT_FAMILY_SEMIBOLD: isRTL() ? 'NotoKufiArabic-Medium' : 'Nunito-Medium',
+  FONT_FAMILY_REGULAR: isRTL() ? 'NotoKufiArabic-Regular' : 'Nunito-Regular',
+  FONT_FAMILY_MEDIUM: isRTL() ? 'NotoKufiArabic-Medium' : 'Nunito-Medium',
   // FONT_FAMILY_LIGHT: isRTL() ? 'Cairo-Light' : 'Montserrat-Light',
 };
 

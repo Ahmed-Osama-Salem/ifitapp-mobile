@@ -1,7 +1,8 @@
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {I18nManager, StyleSheet, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {BackArrowIcon} from '../SvgIcons';
+import color from 'Theme/color';
 
 const BackArrowButton = () => {
   const navigate = useNavigation();
@@ -28,5 +29,11 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 10,
     backgroundColor: '#F6E117',
+    transform: [{rotate: !I18nManager.isRTL ? '0deg' : '180deg'}],
+    shadowColor: color.gray,
+    shadowOffset: {width: 0, height: -2},
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    elevation: 0,
   },
 });

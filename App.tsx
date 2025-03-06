@@ -5,7 +5,7 @@
  * @format
  */
 
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import Toast from 'react-native-toast-message';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
@@ -15,8 +15,25 @@ import StackNavigator from 'navigation/StackNavigator';
 import {persistor, store} from 'Redux/Store';
 import {I18nextProvider} from 'react-i18next';
 import i18n from 'i18n/i18n';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import i18next from 'i18next';
 
 function App(): React.JSX.Element {
+  useEffect(() => {
+    const loadLanguage = async () => {
+      try {
+        const storedLanguage = await AsyncStorage.getItem('selectedLang');
+
+        if (storedLanguage) {
+          // i18next.changeLanguage(storedLanguage);
+          await i18n.changeLanguage(storedLanguage);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    loadLanguage();
+  }, []);
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>

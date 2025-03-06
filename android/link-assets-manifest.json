@@ -2,6 +2,42 @@
   "migIndex": 1,
   "data": [
     {
+      "path": "app/assets/fonts/NotoKufiArabic-Black.ttf",
+      "sha1": "a2aa2e62f4085d3f31d0017ee2cfe669668dd57e"
+    },
+    {
+      "path": "app/assets/fonts/NotoKufiArabic-Bold.ttf",
+      "sha1": "e4edd535584ac9815c5c9dd59ad6e8b906b08327"
+    },
+    {
+      "path": "app/assets/fonts/NotoKufiArabic-ExtraBold.ttf",
+      "sha1": "44a813df8f98a322a5013a42444115574846854d"
+    },
+    {
+      "path": "app/assets/fonts/NotoKufiArabic-ExtraLight.ttf",
+      "sha1": "1bea95a58f023ec7854b3cd9b2f8fa37be8e7973"
+    },
+    {
+      "path": "app/assets/fonts/NotoKufiArabic-Light.ttf",
+      "sha1": "c26d05ef4fe2b2af8df39df32824c76dc18e9b73"
+    },
+    {
+      "path": "app/assets/fonts/NotoKufiArabic-Medium.ttf",
+      "sha1": "71eacca19009707b6f3c10be38d9f0693b6a4b0e"
+    },
+    {
+      "path": "app/assets/fonts/NotoKufiArabic-Regular.ttf",
+      "sha1": "206cf6c4cbcf5be4ec19704b6f298c7486ab5af2"
+    },
+    {
+      "path": "app/assets/fonts/NotoKufiArabic-SemiBold.ttf",
+      "sha1": "7607ef3c27e10e96c32826cf8f2263f0707ce397"
+    },
+    {
+      "path": "app/assets/fonts/NotoKufiArabic-Thin.ttf",
+      "sha1": "786bb691cd50a74b6946fe5158d4ad16b4e743e8"
+    },
+    {
       "path": "app/assets/fonts/Nunito-Black.ttf",
       "sha1": "01abc1142e597b9a7748eb2d14ff823d65a54f01"
     },

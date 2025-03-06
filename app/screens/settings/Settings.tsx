@@ -1,13 +1,22 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import {I18nManager, Image, StyleSheet, Switch, Text, View} from 'react-native';
+import React, {useState} from 'react';
 import ScreenLayout from '../../modules/elements/ScreenLayout';
 import {Fonts, Shadows} from '../../utils/theme';
 import {useGetUserData} from '../../helpers/hooks/useGetUserData';
 import ScreenGradientHeader from 'Common/DynamicComponents/ScreenGradientHeader/ScreenGradientHeader';
+import {useTranslation} from 'react-i18next';
+import color from 'Theme/color';
+import useChangeLang from 'Hooks/useChangeLang';
 
 const Settings = () => {
   const {user} = useGetUserData();
-
+  const [isArabic, setIsArabic] = useState(I18nManager.isRTL);
+  const {t} = useTranslation('translation');
+  const {switchLanguage} = useChangeLang();
+  const toggleLanguage = () => {
+    setIsArabic(!isArabic);
+    switchLanguage(isArabic ? 'en' : 'ar');
+  };
   return (
     <ScreenLayout>
       <ScreenGradientHeader content="Profile" />
@@ -20,6 +29,13 @@ const Settings = () => {
         />
         <Text style={Fonts.title}>{user?.name}</Text>
         <Text style={Fonts.body}>{user?.phone}</Text>
+
+        <Switch
+          value={isArabic}
+          onValueChange={toggleLanguage}
+          thumbColor={isArabic ? color.light : color.gray1}
+          trackColor={{false: '#767577', true: '#81b0ff'}}
+        />
       </View>
     </ScreenLayout>
   );

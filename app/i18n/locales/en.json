@@ -60,6 +60,23 @@
     "Quantity": "Quantity",
     "Top_Items": "Top wedding items",
     "Questions": "Questions",
-    "Articles": "Articles"
+    "Articles": "Articles",
+    "iFit": "iFit",
+    "Home": "Home",
+    "About": "About",
+    "Contact": "Contact",
+    "Settings": "Settings",
+    "Blog": "Blog",
+    "Account": "Account",
+    "Q&A": "Q&A",
+    "Ask a Question": "Ask a Question",
+    "change_lang": "Change Language",
+    "arabic": "Arabic",
+    "english": "English",
+    "language": "Language",
+    "Dont_have_account?": "Don't have an account?",
+    "Make_account": "Make an account",
+    "Title": "Title",
+    "content": "Content"
   }
 }

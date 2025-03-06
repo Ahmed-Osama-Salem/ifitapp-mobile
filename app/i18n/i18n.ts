@@ -6,9 +6,8 @@ import {I18nManager} from 'react-native';
 
 i18next.use(initReactI18next).init({
   compatibilityJSON: 'v3',
-  // lang: 'en',
   lng: I18nManager.isRTL ? 'ar' : 'en',
-  fallbackLng: 'ar',
+  fallbackLng: 'en',
   resources: {
     en: english,
     ar: arabic,

@@ -1,9 +1,15 @@
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import React from 'react';
+import {useNavigation} from '@react-navigation/native';
 
-const CustomTabBarButton = ({children, onPress}: any) => {
+const CustomTabBarButton = ({children}: any) => {
+  const navigation = useNavigation();
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => {
+        navigation.navigate('Ask-Question');
+      }}>
       <View style={styles.buttonStyle}>{children}</View>
     </TouchableOpacity>
   );

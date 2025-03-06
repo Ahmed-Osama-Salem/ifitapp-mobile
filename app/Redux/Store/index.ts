@@ -13,6 +13,7 @@ import {
 } from 'redux-persist';
 import userSlice from 'Redux/Slices/userSlice';
 import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
+import BlogReducer from '../Slices/Blog/BlogSlice';
 
 const userPersistConfig = {
   key: 'user',
@@ -29,6 +30,7 @@ const middleware = [thunk]; // Add other middleware here if needed
 const store = configureStore({
   reducer: {
     user: persistedReducer,
+    blogs: BlogReducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

@@ -1,5 +1,5 @@
 import {ScrollView, StyleSheet, View} from 'react-native';
-import React, {useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import ArticleCard from '../../modules/homeApp/ArticleCard';
 import BlogService, {BlogPost} from '../../server/blog/BlogService';
 import {RefreshControl} from 'react-native-gesture-handler';
@@ -7,7 +7,7 @@ import ScreenLayout from '../../modules/elements/ScreenLayout';
 // import LatestArticels from './components/LatestArticels';
 
 const Home = () => {
-  const articles = new BlogService();
+  // const articles = new BlogService();
 
   const [featuredArticles, setFeaturedArticles] = useState<BlogPost[]>([]);
   const [newestArticles, setNewestArticles] = useState<BlogPost[]>([]);
@@ -20,21 +20,9 @@ const Home = () => {
     }, 2000);
   }, []);
 
-  useMemo(() => {
-    articles
-      .getBlogPosts()
-      .then(res => {
-        if (res) {
-          setFeaturedArticles(res.data.data.data.featured);
-          setNewestArticles(res.data.data.data.newest);
-        }
-        return res;
-      })
-      .catch(err => {
-        console.log(err);
-        return err;
-      });
-  }, []);
+  //  useEffect(() => {
+
+  //  }, []);
 
   return (
     <ScreenLayout>

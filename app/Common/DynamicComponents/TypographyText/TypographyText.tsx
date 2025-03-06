@@ -41,6 +41,7 @@ const TypographyText = (props: TypographyTextProps) => {
           ...(Platform.OS === 'android' && {includeFontPadding: false}),
         },
         textDir,
+        {textAlign: 'left'},
         {
           // backgroundColor: 'red',
           // textAlgn: 'center',

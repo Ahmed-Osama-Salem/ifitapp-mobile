@@ -1,4 +1,5 @@
 import {
+  I18nManager,
   Image,
   StyleSheet,
   Text,
@@ -12,6 +13,11 @@ import RenderHtml from 'react-native-render-html';
 import {useNavigation} from '@react-navigation/native';
 import {BookMarkIcon, HeartIcon, ProfileIcon} from '../SvgIcons';
 import {Colors} from '../../utils/theme';
+import TypographyText from 'Common/DynamicComponents/TypographyText/TypographyText';
+import {FlatList} from 'react-native-gesture-handler';
+import {moderateScale} from 'react-native-size-matters';
+import LinearGradient from 'react-native-linear-gradient';
+import color from 'Theme/color';
 
 interface ArticleCardProps {
   data: BlogPost;
@@ -28,6 +34,18 @@ const ArticleCard = (props: ArticleCardProps) => {
     navigation.navigate('PostDetails', {slug: postSlug});
   };
 
+  const renderItem = ({item}: {item: string}) => {
+    return (
+      <TouchableOpacity style={styles.category}>
+        <TypographyText
+          content={I18nManager.isRTL ? item.name_ar : item.name_en}
+          type="12_Medium"
+          color="dark"
+        />
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <View style={styles.cardContainer}>
       <View style={styles.cardHeader}>
@@ -40,11 +58,24 @@ const ArticleCard = (props: ArticleCardProps) => {
           <Text style={styles.textStyles}>17 june, 2022</Text>
         </View>
         <View style={styles.contentContainer}>
-          <Text style={styles.mainTitle}>{props.data.title.slice(0, 20)}</Text>
-          <Text style={styles.textStyles}>
-            {props.data.readingTime} min read
-          </Text>
+          <TypographyText
+            content={props.data.title.slice(0, 30)}
+            type="16_Bold"
+            color="dark"
+            numberOfLines={2}
+          />
+          <Text style={styles.textStyles}>4 min read</Text>
         </View>
+      </View>
+      <View>
+        <FlatList
+          data={props.data.categories}
+          horizontal
+          contentContainerStyle={{paddingHorizontal: 10}}
+          renderItem={renderItem}
+          keyExtractor={item => item.id.toString()}
+          ItemSeparatorComponent={() => <View style={{width: 10}} />}
+        />
       </View>
       <View>
         <Image
@@ -123,7 +154,7 @@ const styles = StyleSheet.create({
   imageStyle: {
     width: '100%',
     height: 200,
-    marginVertical: 20,
+    marginVertical: moderateScale(12),
   },
   authButton: {
     backgroundColor: '#F6E117',
@@ -132,7 +163,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     marginVertical: 5,
     borderStyle: 'solid',
-    borderWidth: 1,
+    // borderWidth: 1,
     width: '100%',
   },
   buttonText: {
@@ -152,5 +183,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 10,
     alignItems: 'center',
+  },
+  category: {
+    backgroundColor: color.lightGrey,
+    borderRadius: 100,
+    paddingHorizontal: 15,
+    paddingVertical: 5,
+    marginTop: moderateScale(5),
   },
 });

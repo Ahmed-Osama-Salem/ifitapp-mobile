@@ -1,5 +1,6 @@
 import {
   FlatList,
+  I18nManager,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
@@ -14,7 +15,9 @@ import {SearchIcon} from 'modules/SvgIcons';
 import {moderateScale} from 'react-native-size-matters';
 import ArticelSingleColumn from 'Common/DynamicComponents/ArticelSingleColumn/ArticelSingleColumn';
 import QuestionSingleColumn from 'Common/DynamicComponents/QuestionSingleColumn/QuestionSingleColumn';
-import AritcelListCard from 'Common/DynamicComponents/AritcelListCard/AritcelListCard';
+import AritcelListCard, {
+  categories,
+} from 'Common/DynamicComponents/AritcelListCard/AritcelListCard';
 
 const Home = () => {
   const [refreshing, setRefreshing] = useState(false);
@@ -25,6 +28,18 @@ const Home = () => {
       setRefreshing(false);
     }, 2000);
   }, []);
+
+  const renderItem = ({item}: {item: string}) => {
+    return (
+      <TouchableOpacity style={styles.category}>
+        <TypographyText
+          content={I18nManager.isRTL ? item.name_ar : item.name_en}
+          type="12_Medium"
+          color="dark"
+        />
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <ScreenLayout>
@@ -49,6 +64,19 @@ const Home = () => {
           <TouchableOpacity style={styles.iconSearch}>
             <SearchIcon />
           </TouchableOpacity>
+        </View>
+        <View>
+          <FlatList
+            data={categories}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{
+              paddingHorizontal: moderateScale(18),
+            }}
+            renderItem={renderItem}
+            keyExtractor={item => item.id.toString()}
+            ItemSeparatorComponent={() => <View style={{width: 10}} />}
+          />
         </View>
 
         <View style={styles.recomendedArticles}>
@@ -127,9 +155,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginHorizontal: 20,
-    marginVertical: 8,
-    height: 80,
+    marginHorizontal: moderateScale(18),
+    marginVertical: moderateScale(18),
   },
   searchInput: {
     width: '84%',
@@ -155,5 +182,12 @@ const styles = StyleSheet.create({
   },
   recomendedTitle: {
     paddingHorizontal: 20,
+  },
+  category: {
+    backgroundColor: '#fff59b',
+    borderRadius: 100,
+    paddingHorizontal: 15,
+    marginBottom: moderateScale(10),
+    paddingVertical: moderateScale(5),
   },
 });

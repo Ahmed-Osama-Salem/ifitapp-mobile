@@ -14,23 +14,23 @@ import TypographyText from '../TypographyText/TypographyText';
 import {convertToDate} from 'utils/ConvertDate';
 import {ProfileIcon} from 'modules/SvgIcons';
 
+export const categories = [
+  {id: 1, name_en: 'Structural Engineering', name_ar: 'الهندسة الإنشائية'},
+  {id: 3, name_en: 'Transportation Engineering', name_ar: 'هندسة النقل'},
+  {id: 2, name_en: 'Geotechnical Engineering', name_ar: 'الهندسة الجيوتقنية'},
+  {
+    id: 4,
+    name_en: 'Water Resources Engineering',
+    name_ar: 'هندسة الموارد المائية',
+  },
+  {id: 5, name_en: 'Environmental Engineering', name_ar: 'الهندسة البيئية'},
+  {id: 6, name_en: 'Construction Management', name_ar: 'إدارة التشييد'},
+  {id: 7, name_en: 'Surveying and Geomatics', name_ar: 'المساحة والجيوماتكس'},
+  {id: 8, name_en: 'Materials Engineering', name_ar: 'هندسة المواد'},
+  {id: 9, name_en: 'Coastal Engineering', name_ar: 'الهندسة الساحلية'},
+  {id: 10, name_en: 'Earthquake Engineering', name_ar: 'هندسة الزلازل'},
+];
 const AritcelListCard = () => {
-  const categories = [
-    {id: 1, name_en: 'Structural Engineering', name_ar: 'الهندسة الإنشائية'},
-    {id: 3, name_en: 'Transportation Engineering', name_ar: 'هندسة النقل'},
-    {id: 2, name_en: 'Geotechnical Engineering', name_ar: 'الهندسة الجيوتقنية'},
-    {
-      id: 4,
-      name_en: 'Water Resources Engineering',
-      name_ar: 'هندسة الموارد المائية',
-    },
-    {id: 5, name_en: 'Environmental Engineering', name_ar: 'الهندسة البيئية'},
-    {id: 6, name_en: 'Construction Management', name_ar: 'إدارة التشييد'},
-    {id: 7, name_en: 'Surveying and Geomatics', name_ar: 'المساحة والجيوماتكس'},
-    {id: 8, name_en: 'Materials Engineering', name_ar: 'هندسة المواد'},
-    {id: 9, name_en: 'Coastal Engineering', name_ar: 'الهندسة الساحلية'},
-    {id: 10, name_en: 'Earthquake Engineering', name_ar: 'هندسة الزلازل'},
-  ];
   const renderItem = ({item}: {item: string}) => {
     return (
       <TouchableOpacity style={styles.category}>

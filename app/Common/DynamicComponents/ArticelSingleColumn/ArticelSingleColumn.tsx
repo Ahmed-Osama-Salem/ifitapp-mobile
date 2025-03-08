@@ -62,7 +62,7 @@ export default ArticelSingleColumn;
 
 const styles = StyleSheet.create({
   container: {
-    height: '100%',
+    height: moderateScale(190),
     width: moderateScale(200),
     borderWidth: 1,
     borderColor: color.lightGrey2,
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   },
   imageStyle: {
     width: '100%',
-    height: moderateScale(130),
+    height: moderateScale(135),
     borderTopStartRadius: 12,
     borderTopEndRadius: 12,
   },

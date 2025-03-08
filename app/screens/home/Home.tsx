@@ -93,7 +93,8 @@ const Home = () => {
             keyExtractor={item => item.toString()}
             renderItem={() => <ArticelSingleColumn />}
             contentContainerStyle={{
-              paddingVertical: moderateScale(15),
+              paddingBottom: moderateScale(15),
+              paddingTop: moderateScale(7),
               paddingHorizontal: 20,
             }}
             ItemSeparatorComponent={() => <View style={{width: 15}} />}
@@ -113,9 +114,9 @@ const Home = () => {
             keyExtractor={item => item.toString()}
             renderItem={() => <QuestionSingleColumn />}
             contentContainerStyle={{
-              paddingVertical: moderateScale(15),
+              paddingBottom: moderateScale(15),
+              paddingTop: moderateScale(7),
               paddingHorizontal: 20,
-              // height: moderateScale(200),
             }}
             ItemSeparatorComponent={() => <View style={{width: 15}} />}
           />
@@ -175,10 +176,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   recomendedArticles: {
-    height: moderateScale(250),
+    paddingVertical: moderateScale(8),
   },
   recommendedQuestions: {
-    height: moderateScale(210),
+    paddingVertical: moderateScale(8),
   },
   recomendedTitle: {
     paddingHorizontal: 20,
@@ -187,7 +188,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff59b',
     borderRadius: 100,
     paddingHorizontal: 15,
-    marginBottom: moderateScale(10),
+    marginBottom: moderateScale(14),
     paddingVertical: moderateScale(5),
   },
 });

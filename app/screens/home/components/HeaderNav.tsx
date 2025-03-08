@@ -39,7 +39,6 @@ const HeaderNav = ({navigation}: {navigation: NavProp}) => {
         </View>
         <View style={styles.controlContainer}>
           <View style={styles.iconGroup}>
-            <SearchIcon />
             <NotifyIcon />
             <TouchableWithoutFeedback
               onPress={() => {

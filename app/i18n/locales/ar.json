@@ -74,6 +74,12 @@
     "Dont_have_account?": "ليس لديك حساب؟",
     "Make_account": "انشاء حساب",
     "Title": "العنوان",
-    "content": "المحتوى"
+    "content": "المحتوى",
+    "Search_For_Article_Question": "ابحث عن مقالة او سؤال...",
+    "recomended_articles": "المقالات الموصى بها",
+    "recomended_questions": "الاسئلة الموصى بها",
+    "Top_Rated_Articles": "المقالات الأعلى تقييما",
+    "Top_Rated_Questions": "الأسئلة الشائعة",
+    "Answers": "الاجابات"
   }
 }

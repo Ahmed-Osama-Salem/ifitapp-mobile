@@ -16,8 +16,8 @@ import {Colors} from '../../utils/theme';
 import TypographyText from 'Common/DynamicComponents/TypographyText/TypographyText';
 import {FlatList} from 'react-native-gesture-handler';
 import {moderateScale} from 'react-native-size-matters';
-import LinearGradient from 'react-native-linear-gradient';
 import color from 'Theme/color';
+import {convertToDate} from 'utils/ConvertDate';
 
 interface ArticleCardProps {
   data: BlogPost;
@@ -51,11 +51,17 @@ const ArticleCard = (props: ArticleCardProps) => {
       <View style={styles.cardHeader}>
         <View style={styles.autherHeader}>
           <ProfileIcon colorStroke="#666E80" />
-          <Text
-            style={{fontFamily: 'Nunito-Medium', color: Colors.text.primary}}>
-            Mohamed Elfit
-          </Text>
-          <Text style={styles.textStyles}>17 june, 2022</Text>
+          <TypographyText
+            content={I18nManager.isRTL ? 'محمد الفيت' : 'Mohamed Elfit'}
+            type="12_Medium"
+            color="dark"
+          />
+
+          <TypographyText
+            content={convertToDate(props?.data?.created_at)}
+            type="12_Medium"
+            color="ifitGrey"
+          />
         </View>
         <View style={styles.contentContainer}>
           <TypographyText
@@ -64,7 +70,11 @@ const ArticleCard = (props: ArticleCardProps) => {
             color="dark"
             numberOfLines={2}
           />
-          <Text style={styles.textStyles}>4 min read</Text>
+          <TypographyText
+            content={!I18nManager.isRTL ? '4 min read' : '4 دقائق قراءة'}
+            type="12_Medium"
+            color="ifitGrey"
+          />
         </View>
       </View>
       <View>
@@ -124,6 +134,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     minHeight: 200,
     height: 'auto',
+    direction: I18nManager.isRTL ? 'rtl' : 'ltr',
   },
   cardHeader: {
     flexDirection: 'column',

@@ -207,12 +207,18 @@ export const BookMarkIcon = () => {
   );
 };
 
-export const HeartIcon = () => {
+export const HeartIcon = ({
+  fillColor,
+  strokeColor,
+}: {
+  fillColor?: string;
+  strokeColor?: string;
+}) => {
   return (
-    <Svg width={24} height={25} viewBox="0 0 24 25" fill="none">
+    <Svg width={26} height={26} viewBox="0 0 24 25" fill={fillColor || 'none'}>
       <Path
         d="M15.6 3.92a5.37 5.37 0 00-3.6 1.4 5.38 5.38 0 00-9 4c0 6.45 9 10.82 9 10.82s9-4.37 9-10.82a5.4 5.4 0 00-5.4-5.4z"
-        stroke="#000"
+        stroke={strokeColor || '#000'}
         strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"

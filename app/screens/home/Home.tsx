@@ -1,16 +1,21 @@
-import {ScrollView, StyleSheet, View} from 'react-native';
-import React, {useEffect, useMemo, useState} from 'react';
-import ArticleCard from '../../modules/homeApp/ArticleCard';
-import BlogService, {BlogPost} from '../../server/blog/BlogService';
+import {
+  FlatList,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, {useState} from 'react';
 import {RefreshControl} from 'react-native-gesture-handler';
 import ScreenLayout from '../../modules/elements/ScreenLayout';
-// import LatestArticels from './components/LatestArticels';
+import TypographyText from 'Common/DynamicComponents/TypographyText/TypographyText';
+import color from 'Theme/color';
+import {SearchIcon} from 'modules/SvgIcons';
+import {moderateScale} from 'react-native-size-matters';
+import ArticelSingleColumn from 'Common/DynamicComponents/ArticelSingleColumn/ArticelSingleColumn';
+import QuestionSingleColumn from 'Common/DynamicComponents/QuestionSingleColumn/QuestionSingleColumn';
 
 const Home = () => {
-  // const articles = new BlogService();
-
-  const [featuredArticles, setFeaturedArticles] = useState<BlogPost[]>([]);
-  const [newestArticles, setNewestArticles] = useState<BlogPost[]>([]);
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = React.useCallback(() => {
@@ -19,10 +24,6 @@ const Home = () => {
       setRefreshing(false);
     }, 2000);
   }, []);
-
-  //  useEffect(() => {
-
-  //  }, []);
 
   return (
     <ScreenLayout>
@@ -36,11 +37,58 @@ const Home = () => {
             tintColor={'#F6E117'}
           />
         }>
-        {/* <LatestArticels /> */}
-        <View style={styles.ArticlesContainer}>
-          {featuredArticles.map(article => (
-            <ArticleCard key={article._id} data={article} />
-          ))}
+        <View style={styles.searchContainer}>
+          <TouchableOpacity style={styles.searchInput}>
+            <TypographyText
+              content="Search_For_Article_Question"
+              color="ifitGrey"
+              type="12_Reguler"
+            />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.iconSearch}>
+            <SearchIcon />
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.recomendedArticles}>
+          <TypographyText
+            content="Top_Rated_Articles"
+            color="dark"
+            type="18_Bold"
+            styles={styles.recomendedTitle}
+          />
+          <FlatList
+            data={[1, 2, 3, 4]}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={item => item.toString()}
+            renderItem={() => <ArticelSingleColumn />}
+            contentContainerStyle={{
+              paddingVertical: moderateScale(15),
+              paddingHorizontal: 20,
+            }}
+            ItemSeparatorComponent={() => <View style={{width: 15}} />}
+          />
+        </View>
+        <View style={styles.recommendedQuestions}>
+          <TypographyText
+            content="Top_Rated_Questions"
+            color="dark"
+            type="18_Bold"
+            styles={styles.recomendedTitle}
+          />
+          <FlatList
+            data={[1, 2, 3, 4]}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={item => item.toString()}
+            renderItem={() => <QuestionSingleColumn />}
+            contentContainerStyle={{
+              paddingVertical: moderateScale(15),
+              paddingHorizontal: 20,
+            }}
+            ItemSeparatorComponent={() => <View style={{width: 15}} />}
+          />
         </View>
       </ScrollView>
     </ScreenLayout>
@@ -52,11 +100,45 @@ export default Home;
 const styles = StyleSheet.create({
   screenContainer: {
     marginVertical: 20,
+    flex: 1,
   },
   ArticlesContainer: {
     flexDirection: 'column',
     justifyContent: 'space-between',
     gap: 20,
     marginBottom: 20,
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginHorizontal: 20,
+    marginVertical: 8,
+    height: 80,
+  },
+  searchInput: {
+    width: '84%',
+    height: 50,
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: color.lightGrey2,
+  },
+  iconSearch: {
+    width: 50,
+    height: 50,
+    backgroundColor: color.sunYellow,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+  },
+  recomendedArticles: {
+    height: moderateScale(250),
+  },
+  recommendedQuestions: {
+    height: moderateScale(275),
+  },
+  recomendedTitle: {
+    paddingHorizontal: 20,
   },
 });

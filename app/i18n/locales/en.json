@@ -77,6 +77,11 @@
     "Dont_have_account?": "Don't have an account?",
     "Make_account": "Make an account",
     "Title": "Title",
-    "content": "Content"
+    "content": "Content",
+    "Search_For_Article_Question": "Search for an article or question ....",
+    "recomended_articles": "Recomended Articles",
+    "Top_Rated_Articles": "Top Rated Articles",
+    "Top_Rated_Questions": "Top Rated Questions",
+    "Answers": "Answers"
   }
 }

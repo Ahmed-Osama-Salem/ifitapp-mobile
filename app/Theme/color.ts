@@ -127,6 +127,7 @@ export const darkPalette = {
 //default mode is "light" color palette
 export const lightPalette = {
   lightRed: '#FAF5F5',
+  appGrey: '#98A1B3',
   lightRedRibbon: '#FCE6E8',
   lightestGrey: '#F7F8FA',
   black35: 'rgba(0, 0, 0, 0.35)',

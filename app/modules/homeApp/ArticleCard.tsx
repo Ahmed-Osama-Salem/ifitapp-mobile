@@ -81,6 +81,7 @@ const ArticleCard = (props: ArticleCardProps) => {
         <FlatList
           data={props.data.categories}
           horizontal
+          showsHorizontalScrollIndicator={false}
           contentContainerStyle={{paddingHorizontal: 10}}
           renderItem={renderItem}
           keyExtractor={item => item.id.toString()}

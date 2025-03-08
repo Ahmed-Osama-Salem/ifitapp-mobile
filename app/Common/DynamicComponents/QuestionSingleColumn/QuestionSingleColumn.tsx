@@ -51,7 +51,7 @@ export default QuestionSingleColumn;
 
 const styles = StyleSheet.create({
   container: {
-    height: '70%',
+    height: '100%',
     width: moderateScale(250),
     borderRadius: 10,
     borderWidth: 1,

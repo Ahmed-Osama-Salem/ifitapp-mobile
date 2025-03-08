@@ -14,6 +14,7 @@ import {SearchIcon} from 'modules/SvgIcons';
 import {moderateScale} from 'react-native-size-matters';
 import ArticelSingleColumn from 'Common/DynamicComponents/ArticelSingleColumn/ArticelSingleColumn';
 import QuestionSingleColumn from 'Common/DynamicComponents/QuestionSingleColumn/QuestionSingleColumn';
+import AritcelListCard from 'Common/DynamicComponents/AritcelListCard/AritcelListCard';
 
 const Home = () => {
   const [refreshing, setRefreshing] = useState(false);
@@ -86,8 +87,22 @@ const Home = () => {
             contentContainerStyle={{
               paddingVertical: moderateScale(15),
               paddingHorizontal: 20,
+              // height: moderateScale(200),
             }}
             ItemSeparatorComponent={() => <View style={{width: 15}} />}
+          />
+        </View>
+        <View>
+          <TypographyText
+            content="Articles_for_you"
+            color="dark"
+            type="18_Bold"
+            styles={styles.recomendedTitle}
+          />
+          <FlatList
+            data={[1, 2, 3, 4]}
+            keyExtractor={item => item.toString()}
+            renderItem={() => <AritcelListCard />}
           />
         </View>
       </ScrollView>
@@ -100,7 +115,7 @@ export default Home;
 const styles = StyleSheet.create({
   screenContainer: {
     marginVertical: 20,
-    flex: 1,
+    paddingBottom: 40,
   },
   ArticlesContainer: {
     flexDirection: 'column',
@@ -136,7 +151,7 @@ const styles = StyleSheet.create({
     height: moderateScale(250),
   },
   recommendedQuestions: {
-    height: moderateScale(275),
+    height: moderateScale(210),
   },
   recomendedTitle: {
     paddingHorizontal: 20,

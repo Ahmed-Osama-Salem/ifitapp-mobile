@@ -40,8 +40,6 @@ api.interceptors.response.use(
     if (error.response) {
       console.log(
         'Response error:',
-        // error,
-        // error.response.status,
         error.response.data,
       );
     } else if (error.request) {

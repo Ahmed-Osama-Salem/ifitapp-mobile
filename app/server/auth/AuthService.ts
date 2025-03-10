@@ -1,47 +1,23 @@
-import axios from 'axios';
-import {appEnvConfig} from '../../utils/Config';
-interface RegisterPayload {
-  email: string;
-  password: string;
-  name: string;
-  phone_number: string;
-}
-interface VerifyOtpPayload {
-  otp: string | any;
-}
+import { I18nManager } from 'react-native';
+import { appEnvConfig } from '../../utils/Config';
+import apiHelper from 'utils/ApiHelper';
 
-interface LoginPayload {
-  email: string;
-  password: string;
-}
 class AuthService {
-  private BATH_URL = appEnvConfig.BASE_URL;
-  RegisterService = async (payload: RegisterPayload) => {
-    console.log('====================================');
-    console.log('payload::', this.BATH_URL);
-    console.log('====================================');
-    return await axios.post(`${this.BATH_URL}auth/register`, payload);
-  };
+  private BASE_URL = appEnvConfig.BASE_URL;
 
-  VerifyOtpService = async (payload: VerifyOtpPayload) => {
-    console.log('====================================');
-    console.log('payload::', payload);
-    console.log('====================================');
-    return await axios
-      .post(`${this.BATH_URL}verify`, payload)
-      .then(response => {
-        return response;
-      })
-      .catch(error => {
-        return error;
-      });
-  };
-
-  LoginService = async (payload: LoginPayload) => {
-    console.log('====================================');
-    console.log('payload::', this.BATH_URL);
-    console.log('====================================');
-    return axios.post(`${this.BATH_URL}auth/login`, payload);
-  };
+  public async login(email: string, password: string): Promise<any> {
+    console.log(email, password, "from Services")
+    return apiHelper.POST(this.BASE_URL + '/auth/login/', {
+      email,
+      password,
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept-Language': I18nManager.isRTL ? 'ar' : 'en',
+      },
+    });
+  }
 }
-export default AuthService;
+
+export default new AuthService();
+

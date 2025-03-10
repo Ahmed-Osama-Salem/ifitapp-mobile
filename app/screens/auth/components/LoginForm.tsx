@@ -16,30 +16,39 @@ import {Formik} from 'formik';
 import loginSchema from '../../../helpers/validation/loginSchema';
 import {Colors, Shadows} from '../../../utils/theme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import TypographyText from 'Common/DynamicComponents/TypographyText/TypographyText';
+import {Color} from 'Theme/color';
+import { RootState, store } from 'Redux/Store';
+import { loginUser } from 'Redux/Slices/Auth/AuthSlice';
+import { useSelector } from 'react-redux';
 
 const LoginForm = () => {
-  const isDark = useColorScheme() === 'dark';
+  // const isDark = useColorScheme() === 'dark';
   const navigation: any = useNavigation();
-  const authPromise = new AuthService();
+  const { user, loading, error } = useSelector((state: RootState) => state.auth);
+
+  // const authPromise = new AuthService();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const loginValues = {
     email: '',
     password: '',
   };
-  const loginUser = async (values: typeof loginValues) => {
-    setIsSubmitting(true);
+
+  const handleUserLogin = async (values: typeof loginValues) => {
+    try {
+      const resp = await store.dispatch(loginUser({email:values.email, password:values.password})).unwrap();
+    } catch (error) {
+      console.log(error, "first, errror")
+      console.log(error, "error")
+    }
+    /*
     try {
       const response = await authPromise.LoginService(values);
       setIsSubmitting(false);
-      // console.log('====================================');
-      // console.log('response::::', response.data.data.user);
-      // console.log('====================================');
       const jsonValue = JSON.stringify(response.data.data.user);
 
-      await AsyncStorage.setItem('user', jsonValue);
 
-      if (response.data.status === 200) {
         Toast.show({
           type: 'success',
           text1: response.data.message,
@@ -51,9 +60,6 @@ const LoginForm = () => {
 
       return response;
     } catch (error: any) {
-      // console.log('====================================');
-      // console.log('error::', error.response.data);
-      // console.log('====================================');
       setIsSubmitting(false);
       Toast.show({
         type: 'error',
@@ -62,6 +68,7 @@ const LoginForm = () => {
 
       return error.response.data;
     }
+    */
   };
 
   const RegisterNavigation = () => {
@@ -70,15 +77,23 @@ const LoginForm = () => {
 
   return (
     <View style={styles.screenContainer}>
-      <Text style={styles.formHeader}>Sign in</Text>
-      <Text style={styles.formDescription}>
-        to i Fit , the first engineering community app
-      </Text>
+      <TypographyText
+        color={Colors.text.primary as Color}
+        content="sign-in"
+        type="24_Medium"
+      />
+      <TypographyText
+        styles={{marginTop: 10}}
+        color={Colors.text.secondary as Color}
+        content="slogan"
+        type="16_Reguler"
+      />
+
       <View style={styles.inputsContainer}>
         <Formik
           validationSchema={loginSchema}
           initialValues={loginValues}
-          onSubmit={loginUser}>
+          onSubmit={handleUserLogin}>
           {({
             handleChange,
             handleBlur,

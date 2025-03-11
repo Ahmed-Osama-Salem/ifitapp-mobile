@@ -9,7 +9,7 @@ import {
 import React from 'react';
 import color from 'Theme/color';
 import {moderateScale} from 'react-native-size-matters';
-import TypographyText from '../TypographyText/TypographyText';
+import TypographyText from '../../../../Common/DynamicComponents/TypographyText/TypographyText';
 import {HeartIcon} from 'modules/SvgIcons';
 import {convertToDate} from 'utils/ConvertDate';
 

@@ -14,6 +14,8 @@ import {
 import userSlice from 'Redux/Slices/userSlice';
 import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
 import BlogReducer from '../Slices/Blog/BlogSlice';
+import loginSlice from 'Redux/Slices/Auth/loginSlice';
+import registerSlice from 'Redux/Slices/Auth/RegisterSlice';
 
 const userPersistConfig = {
   key: 'user',
@@ -31,6 +33,8 @@ const store = configureStore({
   reducer: {
     user: persistedReducer,
     blogs: BlogReducer,
+    login: loginSlice,
+    register: registerSlice,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

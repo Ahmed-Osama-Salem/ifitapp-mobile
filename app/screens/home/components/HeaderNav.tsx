@@ -8,11 +8,7 @@ import {
 } from 'react-native';
 import React from 'react';
 // import {useNavigation} from '@react-navigation/native';
-import {
-  NotifyIcon,
-  HumburgerMenuIcon,
-  SearchIcon,
-} from '../../../modules/SvgIcons';
+import {NotifyIcon, HumburgerMenuIcon} from '../../../modules/SvgIcons';
 import {DrawerNavigationProp} from '@react-navigation/drawer';
 import LinearGradient from 'react-native-linear-gradient';
 import {moderateScale} from 'react-native-size-matters';

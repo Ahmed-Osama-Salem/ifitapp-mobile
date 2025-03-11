@@ -8,33 +8,53 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
-import {BlogPost} from '../../server/blog/BlogService';
-import RenderHtml from 'react-native-render-html';
+import RenderHtml, {defaultSystemFonts} from 'react-native-render-html';
 import {useNavigation} from '@react-navigation/native';
-import {BookMarkIcon, HeartIcon, ProfileIcon} from '../SvgIcons';
+import {HeartIcon, ProfileIcon} from '../SvgIcons';
 import {Colors} from '../../utils/theme';
 import TypographyText from 'Common/DynamicComponents/TypographyText/TypographyText';
 import {FlatList} from 'react-native-gesture-handler';
 import {moderateScale} from 'react-native-size-matters';
 import color from 'Theme/color';
 import {convertToDate} from 'utils/ConvertDate';
+import {TextStyle} from 'Common/DynamicComponents/TypographyText/Typography.system';
+import {BlogList} from 'Redux/Slices/Blog/BlogSlice';
 
 interface ArticleCardProps {
-  data: BlogPost;
+  data: BlogList;
 }
 
 const ArticleCard = (props: ArticleCardProps) => {
   const {width} = useWindowDimensions();
   const navigation: any = useNavigation();
+  const systemFonts = [
+    ...defaultSystemFonts,
+    'Nunito-Regular',
+    'Nunito-Bold',
+    'NotoKufiArabic-Regular',
+    'NotoKufiArabic-Bold',
+  ];
+
+  const tagsStyles = {
+    p: {
+      fontSize: TextStyle['12_Reguler'].fontSize,
+      color: '#98A1B3',
+      fontFamily: TextStyle['12_Reguler'].fontFamily,
+      textAlign: 'left',
+    },
+  };
   const source = {
-    html: props.data.content.replace('h1>', 'p>'),
+    html: props.data.content.replace('h1>', 'p>').slice(0, 100) + '...',
   };
 
-  const navigateToSinglePost = (postSlug: string) => {
-    navigation.navigate('PostDetails', {slug: postSlug});
+  const navigateToSinglePost = () => {
+    navigation.navigate('PostDetails', {
+      slug: props.data.slug,
+      title: props.data.title,
+    });
   };
 
-  const renderItem = ({item}: {item: string}) => {
+  const renderItem = ({item}: {item: BlogList['categories']}) => {
     return (
       <TouchableOpacity style={styles.category}>
         <TypographyText
@@ -79,7 +99,7 @@ const ArticleCard = (props: ArticleCardProps) => {
       </View>
       <View>
         <FlatList
-          data={props.data.categories}
+          data={props.data.categories as unknown as BlogList['categories'][]}
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{paddingHorizontal: 10}}
@@ -97,26 +117,25 @@ const ArticleCard = (props: ArticleCardProps) => {
         />
       </View>
       <View style={styles.cardHeader}>
-        <Text style={styles.textStyles}>
-          <RenderHtml contentWidth={width} source={source} />
-        </Text>
+        <RenderHtml
+          contentWidth={width}
+          source={source}
+          systemFonts={systemFonts}
+          tagsStyles={tagsStyles}
+        />
       </View>
       <View style={styles.footerContainer}>
         <View style={styles.cardHeader}>
           <TouchableOpacity
             style={styles.authButton}
             onPress={() => {
-              navigateToSinglePost(props.data.slug);
+              navigateToSinglePost();
             }}>
-            <Text style={styles.buttonText}>Read</Text>
+            <TypographyText content="Read" type="12_Medium" color="dark" />
           </TouchableOpacity>
         </View>
         <View style={styles.footerIcon}>
-          <View style={styles.footerIcon}>
-            <Text style={styles.textStyles}>{props.data.helpfulCount}</Text>
-            <HeartIcon />
-          </View>
-          <BookMarkIcon />
+          <HeartIcon size={30} />
         </View>
       </View>
     </View>
@@ -128,7 +147,7 @@ export default ArticleCard;
 const styles = StyleSheet.create({
   cardContainer: {
     backgroundColor: Colors.white,
-    paddingVertical: 20,
+    paddingVertical: moderateScale(10),
     borderRadius: 10,
     marginVertical: 10,
     borderColor: '#E1E2E680',
@@ -155,7 +174,8 @@ const styles = StyleSheet.create({
   },
   textStyles: {
     color: Colors.text.tertiary,
-    fontFamily: 'Nunito-Regular',
+    fontFamily: TextStyle['12_Reguler'].fontFamily,
+    fontSize: TextStyle['12_Reguler'].fontSize,
   },
   mainTitle: {
     fontSize: 20,
@@ -174,8 +194,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 10,
     marginVertical: 5,
-    borderStyle: 'solid',
-    // borderWidth: 1,
     width: '100%',
   },
   buttonText: {

@@ -4,24 +4,29 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   ActivityIndicator,
-  useColorScheme,
+  I18nManager,
 } from 'react-native';
 import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import AuthService from '../../../server/auth/AuthService';
 import Toast from 'react-native-toast-message';
 import {Formik} from 'formik';
 import loginSchema from '../../../helpers/validation/loginSchema';
 import {Colors, Shadows} from '../../../utils/theme';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {store} from 'Redux/Store';
+import {loginUserThunk} from 'Redux/Slices/Auth/loginSlice';
+import TypographyText from 'Common/DynamicComponents/TypographyText/TypographyText';
+import {TextStyle} from 'Common/DynamicComponents/TypographyText/Typography.system';
+import color from 'Theme/color';
+import {moderateScale} from 'react-native-size-matters';
+import BackArrowButton from 'modules/elements/BackArrowButton';
+import {useTranslation} from 'react-i18next';
 
 const LoginForm = () => {
-  const isDark = useColorScheme() === 'dark';
+  // const isDark = useColorScheme() === 'dark';
   const navigation: any = useNavigation();
-  const authPromise = new AuthService();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const {t} = useTranslation('translation');
 
   const loginValues = {
     email: '',
@@ -29,31 +34,38 @@ const LoginForm = () => {
   };
   const loginUser = async (values: typeof loginValues) => {
     setIsSubmitting(true);
+
     try {
-      const response = await authPromise.LoginService(values);
-      setIsSubmitting(false);
-      // console.log('====================================');
-      // console.log('response::::', response.data.data.user);
-      // console.log('====================================');
-      const jsonValue = JSON.stringify(response.data.data.user);
+      await store
+        .dispatch(
+          loginUserThunk({
+            email: values.email,
+            password: values.password,
+          }),
+        )
+        .unwrap()
+        .then((response: any) => {
+          console.log(response);
 
-      await AsyncStorage.setItem('user', jsonValue);
-
-      if (response.data.status === 200) {
-        Toast.show({
-          type: 'success',
-          text1: response.data.message,
+          Toast.show({
+            type: 'ifit',
+            visibilityTime: 4000,
+            props: {
+              variant: 'success',
+              message: t('welcome') + ' ' + response.data.data.email,
+              // response.data.data.first_name +
+              // ' ' +
+              // response.data.data.last_name,
+            },
+          });
+        })
+        .finally(() => {
+          setIsSubmitting(false);
+          setTimeout(() => {
+            navigation.navigate('HomeApp');
+          }, 1000);
         });
-        setTimeout(() => {
-          navigation.navigate('HomeApp');
-        }, 2000);
-      }
-
-      return response;
     } catch (error: any) {
-      // console.log('====================================');
-      // console.log('error::', error.response.data);
-      // console.log('====================================');
       setIsSubmitting(false);
       Toast.show({
         type: 'error',
@@ -70,10 +82,23 @@ const LoginForm = () => {
 
   return (
     <View style={styles.screenContainer}>
-      <Text style={styles.formHeader}>Sign in</Text>
-      <Text style={styles.formDescription}>
-        to i Fit , the first engineering community app
-      </Text>
+      <View style={styles.icon}>
+        <BackArrowButton
+          onGoBack={() => {
+            navigation.navigate('HomeApp');
+          }}
+        />
+        <TypographyText content="login" type="24_Bold" color="dark" />
+      </View>
+      <View
+        style={{
+          width: '80%',
+          justifyContent: 'center',
+          marginTop: 10,
+          alignItems: 'center',
+        }}>
+        <TypographyText content="slogan" type="12_Medium" color="dark" />
+      </View>
       <View style={styles.inputsContainer}>
         <Formik
           validationSchema={loginSchema}
@@ -91,7 +116,9 @@ const LoginForm = () => {
               <View>
                 <TextInput
                   keyboardType="default"
-                  placeholder="Email"
+                  placeholder={
+                    I18nManager.isRTL ? 'البريد الالكتروني' : 'Email'
+                  }
                   style={styles.inputStyle}
                   placeholderTextColor={Colors.text.secondary}
                   value={values.email}
@@ -99,13 +126,17 @@ const LoginForm = () => {
                   onBlur={handleBlur('email')}
                 />
                 {touched.email && errors.email && (
-                  <Text style={styles.errorText}>{errors.email}</Text>
+                  <TypographyText
+                    content={errors.email}
+                    type="12_Medium"
+                    color="redRibbon"
+                  />
                 )}
               </View>
               <View>
                 <TextInput
                   keyboardType="default"
-                  placeholder="Password"
+                  placeholder={I18nManager.isRTL ? 'كلمة المرور' : 'Password'}
                   secureTextEntry={true}
                   style={styles.inputStyle}
                   placeholderTextColor={Colors.text.secondary}
@@ -114,30 +145,49 @@ const LoginForm = () => {
                   onBlur={handleBlur('password')}
                 />
                 {touched.password && errors.password && (
-                  <Text style={styles.errorText}>{errors.password}</Text>
+                  <TypographyText
+                    content={errors.password}
+                    type="12_Medium"
+                    color="redRibbon"
+                  />
                 )}
               </View>
-              <TouchableWithoutFeedback>
-                <Text>Forget my password ?</Text>
-              </TouchableWithoutFeedback>
+              <TouchableOpacity>
+                <TypographyText
+                  content="Forget my password ?"
+                  type="12_Medium"
+                  color="dark"
+                />
+              </TouchableOpacity>
               <TouchableOpacity
                 style={styles.authButton}
                 disabled={isSubmitting}
                 onPress={handleSubmit as any}>
                 {isSubmitting ? (
-                  <ActivityIndicator />
+                  <ActivityIndicator style={{padding: 6}} />
                 ) : (
-                  <Text style={styles.buttonText}>Sign in</Text>
+                  <TypographyText content="login" type="16_Bold" color="dark" />
                 )}
               </TouchableOpacity>
             </View>
           )}
         </Formik>
         <View style={styles.registerContainer}>
-          <Text>Or</Text>
-          <TouchableWithoutFeedback onPress={RegisterNavigation}>
-            <Text style={styles.registerLink}>Register</Text>
-          </TouchableWithoutFeedback>
+          <TypographyText
+            content="Dont_have_account?"
+            color="dark"
+            type="12_Medium"
+            styles={styles.text}
+          />
+          <View style={styles.authContainer}>
+            <TouchableOpacity style={styles.btn} onPress={RegisterNavigation}>
+              <TypographyText
+                content="Make_account"
+                color="dark"
+                type="14_Bold"
+              />
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </View>
@@ -151,7 +201,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    paddingVertical: 20,
+    paddingTop: moderateScale(30),
     paddingHorizontal: 20,
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
@@ -183,20 +233,25 @@ const styles = StyleSheet.create({
     height: 45,
     width: '100%',
     borderWidth: 1,
-    padding: 10,
+    padding: 12,
     borderRadius: 50,
-    fontFamily: 'Nunito-Medium',
-    fontSize: 16,
-    color: Colors.text.primary,
+    fontFamily: TextStyle['12_Reguler'].fontFamily,
+    fontSize: TextStyle['12_Reguler'].fontSize,
+    color: color.dark,
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: I18nManager.isRTL ? 'right' : 'left',
   },
   authButton: {
     backgroundColor: '#F6E117',
     borderRadius: 100,
     paddingHorizontal: 50,
-    paddingVertical: 14,
+    paddingVertical: 10,
     borderStyle: 'solid',
-    borderWidth: 1,
+    // borderWidth: 1,
     width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   buttonText: {
     color: Colors.text.primary,
@@ -214,11 +269,34 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     gap: 10,
+    width: '100%',
+    marginTop: moderateScale(20),
   },
   errorText: {
     color: Colors.red,
     fontSize: 12,
     fontFamily: 'Nunito-Medium',
     marginTop: 5,
+  },
+  btn: {
+    padding: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: color.lightGrey,
+    borderRadius: 100,
+    width: '100%',
+  },
+  authContainer: {
+    width: '100%',
+  },
+  text: {
+    textAlign: 'left',
+  },
+  icon: {
+    flexDirection: I18nManager.isRTL ? 'row' : 'row-reverse',
+    alignItems: 'center',
+    width: '80%',
+    gap: 20,
   },
 });

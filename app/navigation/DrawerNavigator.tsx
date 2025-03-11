@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unstable-nested-components */
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -19,16 +19,27 @@ import {BlogIcon, FQAIcon, HomeIcon, ProfileIcon} from 'modules/SvgIcons';
 import color from 'Theme/color';
 import {Switch} from 'react-native-gesture-handler';
 import useChangeLang from 'Hooks/useChangeLang';
+import {useSelector} from 'react-redux';
+import {RootState, store} from 'Redux/Store';
+import {removeUser} from 'Redux/Slices/userSlice';
 
 const Drawer = createDrawerNavigator();
 
 const CustomDrawerContent = props => {
   const [isArabic, setIsArabic] = useState(I18nManager.isRTL);
   const {switchLanguage} = useChangeLang();
+  const {user} = useSelector((state: RootState) => state.user);
+
   const toggleLanguage = () => {
     setIsArabic(!isArabic);
     switchLanguage(isArabic ? 'en' : 'ar');
   };
+
+  const logout = async () => {
+    props.navigation.closeDrawer();
+    await store.dispatch(removeUser()).unwrap();
+  };
+
   return (
     <DrawerContentScrollView {...props} style={styles.drawerContent}>
       <View>
@@ -89,6 +100,7 @@ const CustomDrawerContent = props => {
             type="16_Bold"
             styles={styles.text}
           /> */}
+
           <View style={styles.rowContainer}>
             <View>
               <TypographyText
@@ -111,29 +123,53 @@ const CustomDrawerContent = props => {
               trackColor={{false: '#767577', true: color.sunYellow}}
             />
           </View>
+
           <View style={styles.divider} />
-          <TypographyText
-            content="Dont_have_account?"
-            color="dark"
-            type="14_Reguler"
-            styles={styles.text}
-          />
-          <View style={styles.authContainer}>
-            <TouchableOpacity
-              style={styles.btn}
-              onPress={() => props.navigation.navigate('Register')}>
+          {user === null ? (
+            <>
               <TypographyText
-                content="Make_account"
+                content="Dont_have_account?"
+                color="dark"
+                type="14_Reguler"
+                styles={styles.text}
+              />
+              <View style={styles.authContainer}>
+                <TouchableOpacity
+                  style={styles.btn}
+                  onPress={() => props.navigation.navigate('Register')}>
+                  <TypographyText
+                    content="Make_account"
+                    color="dark"
+                    type="14_Bold"
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.btnYellow}
+                  onPress={() => props.navigation.navigate('Login')}>
+                  <TypographyText content="login" color="dark" type="14_Bold" />
+                </TouchableOpacity>
+              </View>
+            </>
+          ) : (
+            <View>
+              <TypographyText
+                content="welcome"
                 color="dark"
                 type="14_Bold"
+                styles={styles.text}
               />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.btnYellow}
-              onPress={() => props.navigation.navigate('Login')}>
-              <TypographyText content="login" color="dark" type="14_Bold" />
-            </TouchableOpacity>
-          </View>
+              <TypographyText
+                content={user?.email.slice(0, 10)}
+                color="dark"
+                type="14_Bold"
+                styles={styles.text}
+              />
+
+              <TouchableOpacity style={styles.btn} onPress={logout}>
+                <TypographyText content="Logout" color="dark" type="14_Bold" />
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
       </View>
     </DrawerContentScrollView>

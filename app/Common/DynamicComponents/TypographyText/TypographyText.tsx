@@ -1,6 +1,11 @@
 import React from 'react';
 import {useTranslation} from 'react-i18next';
-import {Platform, Text, TextStyle as TextSystem} from 'react-native';
+import {
+  I18nManager,
+  Platform,
+  Text,
+  TextStyle as TextSystem,
+} from 'react-native';
 
 import {allowFontScaling, TextStyle} from './Typography.system';
 import {useRTL} from 'Hooks/useRTL';
@@ -32,21 +37,11 @@ const TypographyText = (props: TypographyTextProps) => {
         TextStyle[props.type],
         props.styles,
         {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          // color: isDarkMode
-          //   ? darkColor()[props.color]
-          //   : color[props.color as keyof typeof lightPalette],
           color: lightPalette[props.color as keyof typeof lightPalette],
           ...(Platform.OS === 'android' && {includeFontPadding: false}),
         },
         textDir,
         {textAlign: 'left'},
-        {
-          // backgroundColor: 'red',
-          // textAlgn: 'center',
-          // paddingTop: 2,
-        },
       ]}>
       {props.notTranslate ? props.content : t(props.content)}
     </Text>

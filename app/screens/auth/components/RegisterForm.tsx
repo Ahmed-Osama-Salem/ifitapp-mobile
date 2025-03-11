@@ -1,33 +1,77 @@
 import React, {useState} from 'react';
 import {
   StyleSheet,
-  Text,
   View,
-  TouchableWithoutFeedback,
   TextInput,
   TouchableOpacity,
-  Button,
   ActivityIndicator,
+  I18nManager,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import AuthService from '../../../server/auth/AuthService';
 import {Formik} from 'formik';
 import registerSchema from '../../../helpers/validation/registerSchema';
 import Toast from 'react-native-toast-message';
 import {Colors, Shadows} from '../../../utils/theme';
+import BackArrowButton from 'modules/elements/BackArrowButton';
+import TypographyText from 'Common/DynamicComponents/TypographyText/TypographyText';
+import {useTranslation} from 'react-i18next';
+import {TextStyle} from 'Common/DynamicComponents/TypographyText/Typography.system';
+import color from 'Theme/color';
+import {store} from 'Redux/Store';
+import {registerUserThunk} from 'Redux/Slices/Auth/RegisterSlice';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 
 const RegisterForm = () => {
   const navigation: any = useNavigation();
-  const authPromise = new AuthService();
+  // const authPromise = new AuthService();
   const [registerToggle, setRegisterToggle] = useState<
     'contact-info' | 'pass-confirm'
   >('contact-info');
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const {t} = useTranslation('translation');
+
+  // Animation values
+  const contactOpacity = useSharedValue(1);
+  const contactTranslateX = useSharedValue(0);
+  const passOpacity = useSharedValue(0);
+  const passTranslateX = useSharedValue(100);
+
+  const animateToStep = (step: 'contact-info' | 'pass-confirm') => {
+    if (step === 'pass-confirm') {
+      contactOpacity.value = withTiming(0, {duration: 300});
+      contactTranslateX.value = withTiming(-100, {duration: 300});
+      passOpacity.value = withTiming(1, {duration: 300});
+      passTranslateX.value = withTiming(0, {duration: 300});
+    } else {
+      passOpacity.value = withTiming(0, {duration: 300});
+      passTranslateX.value = withTiming(100, {duration: 300});
+      contactOpacity.value = withTiming(1, {duration: 300});
+      contactTranslateX.value = withTiming(0, {duration: 300});
+    }
+    // 🔹 Set state *after* animation starts to avoid flickering
+    setTimeout(() => {
+      setRegisterToggle(step);
+    }, 100);
+  };
+
+  const contactInfoStyle = useAnimatedStyle(() => ({
+    opacity: contactOpacity.value,
+    transform: [{translateX: contactTranslateX.value}],
+  }));
+
+  const passConfirmStyle = useAnimatedStyle(() => ({
+    opacity: passOpacity.value,
+    transform: [{translateX: passTranslateX.value}],
+  }));
 
   const registerValues = {
-    name: '',
+    firstName: '',
     email: '',
-    phone_number: '',
+    lastName: '',
     password: '',
     confirm_password: '',
   };
@@ -39,27 +83,57 @@ const RegisterForm = () => {
   const registerUser = async (values: typeof registerValues) => {
     setIsSubmitting(true);
     try {
-      const response = await authPromise.RegisterService(values);
+      await store
+        .dispatch(
+          registerUserThunk({
+            email: values.email,
+            password: values.password,
+            first_name: values.firstName,
+            last_name: values.lastName,
+          }),
+        )
+        .unwrap()
+        .then((response: any) => {
+          console.log(response, 'dsdas');
+          if (!response.data) {
+            Object.keys(response).forEach(field => {
+              response[field].forEach((message: string) => {
+                return Toast.show({
+                  type: 'ifit',
+                  visibilityTime: 4000,
+                  props: {
+                    variant: 'error',
+                    message: message,
+                  },
+                });
+              });
+            });
 
-      setIsSubmitting(false);
-
-      console.log('response::', response);
-      if (response.data) {
-        Toast.show({
-          type: 'success',
-          text1: response.data.message,
+            return;
+          }
+          Toast.show({
+            type: 'ifit',
+            visibilityTime: 4000,
+            props: {
+              variant: 'success',
+              message: I18nManager.isRTL
+                ? 'تحقق من بريدك الإلكتروني للحصول على رمز التحقق'
+                : 'Check your email for the verification code',
+            },
+          });
+          setTimeout(() => {
+            navigation.navigate('otp-verify');
+          }, 1000);
+        })
+        .catch((error: any) => {
+          console.log('error:', error);
+        })
+        .finally(() => {
+          setIsSubmitting(false);
         });
-        setTimeout(() => {
-          navigation.navigate('otp-verify');
-        }, 2000);
-      }
-      return response;
     } catch (error) {
       setIsSubmitting(false);
-      Toast.show({
-        type: 'error',
-        text1: 'try to register again',
-      });
+
       console.log('error::', error);
       return error;
     }
@@ -68,10 +142,19 @@ const RegisterForm = () => {
   return (
     <View>
       <View style={styles.screenContainer}>
-        <Text style={styles.formHeader}>Sign up</Text>
-        <Text style={styles.formDescription}>
-          to i Fit, the first engineering community app
-        </Text>
+        <View style={styles.icon}>
+          <BackArrowButton />
+          <TypographyText content="Make_account" type="24_Bold" color="dark" />
+        </View>
+        <View
+          style={{
+            width: '80%',
+            justifyContent: 'center',
+            marginTop: 10,
+            alignItems: 'center',
+          }}>
+          <TypographyText content="slogan" type="12_Medium" color="dark" />
+        </View>
 
         <View style={styles.inputsContainer}>
           <Formik
@@ -88,25 +171,48 @@ const RegisterForm = () => {
             }) => (
               <View style={{width: '100%', gap: 20}}>
                 {registerToggle === 'contact-info' ? (
-                  <>
+                  <Animated.View
+                    style={[styles.stepContainer, contactInfoStyle]}>
                     <View>
                       <TextInput
                         keyboardType="default"
-                        placeholder="Name"
+                        placeholder={t('first name')}
                         style={styles.inputStyle}
-                        value={values.name}
-                        onBlur={handleBlur('name')}
-                        onChangeText={handleChange('name')}
+                        value={values.firstName}
+                        onBlur={handleBlur('firstName')}
+                        onChangeText={handleChange('firstName')}
                         placeholderTextColor={Colors.text.secondary}
                       />
-                      {touched.name && errors.name && (
-                        <Text style={styles.errorText}>{errors.name}</Text>
+                      {touched.firstName && errors.firstName && (
+                        <TypographyText
+                          content={errors.firstName}
+                          type="12_Medium"
+                          color="redRibbon"
+                        />
+                      )}
+                    </View>
+                    <View>
+                      <TextInput
+                        keyboardType="default"
+                        placeholder={t('last name')}
+                        style={styles.inputStyle}
+                        value={values.lastName}
+                        onChangeText={handleChange('lastName')}
+                        onBlur={handleBlur('lastName')}
+                        placeholderTextColor={Colors.text.secondary}
+                      />
+                      {touched.lastName && errors.lastName && (
+                        <TypographyText
+                          content={errors.lastName}
+                          type="12_Medium"
+                          color="redRibbon"
+                        />
                       )}
                     </View>
                     <View>
                       <TextInput
                         keyboardType="email-address"
-                        placeholder="Email"
+                        placeholder={t('email')}
                         style={styles.inputStyle}
                         value={values.email}
                         onChangeText={handleChange('email')}
@@ -114,46 +220,45 @@ const RegisterForm = () => {
                         placeholderTextColor={Colors.text.secondary}
                       />
                       {touched.email && errors.email && (
-                        <Text style={styles.errorText}>{errors.email}</Text>
+                        <TypographyText
+                          content={errors.email}
+                          type="12_Medium"
+                          color="redRibbon"
+                        />
                       )}
                     </View>
-                    <View>
-                      <TextInput
-                        keyboardType="default"
-                        placeholder="Phone Number"
-                        style={styles.inputStyle}
-                        value={values.phone_number}
-                        onChangeText={handleChange('phone_number')}
-                        onBlur={handleBlur('phone_number')}
-                        placeholderTextColor={Colors.text.secondary}
-                      />
-                      {touched.phone_number && errors.phone_number && (
-                        <Text style={styles.errorText}>
-                          {errors.phone_number}
-                        </Text>
-                      )}
-                    </View>
+
                     <TouchableOpacity
                       style={styles.authButton}
                       onPress={() => {
+                        handleBlur('firstName');
+                        handleBlur('lastName');
+                        handleBlur('email');
+                        // handleSubmit(); // Trigger validation manually
                         if (
-                          !errors.email &&
-                          !errors.phone_number &&
-                          !errors.name
+                          values.firstName &&
+                          values.lastName &&
+                          values.email
                         ) {
-                          setRegisterToggle('pass-confirm');
+                          // setRegisterToggle('pass-confirm');
+                          animateToStep('pass-confirm');
                         }
                       }}>
-                      <Text style={styles.buttonText}>Continue</Text>
+                      <TypographyText
+                        content="Continue"
+                        type="14_Bold"
+                        color="dark"
+                      />
                     </TouchableOpacity>
-                  </>
+                  </Animated.View>
                 ) : null}
                 {registerToggle === 'pass-confirm' && (
-                  <>
+                  <Animated.View
+                    style={[styles.stepContainer, passConfirmStyle]}>
                     <View>
                       <TextInput
                         keyboardType="default"
-                        placeholder="Password"
+                        placeholder={t('password')}
                         secureTextEntry={true}
                         style={styles.inputStyle}
                         value={values.password}
@@ -162,13 +267,17 @@ const RegisterForm = () => {
                         placeholderTextColor={Colors.text.secondary}
                       />
                       {touched.password && errors.password && (
-                        <Text style={styles.errorText}>{errors.password}</Text>
+                        <TypographyText
+                          content={errors.password}
+                          type="12_Medium"
+                          color="redRibbon"
+                        />
                       )}
                     </View>
                     <View>
                       <TextInput
                         keyboardType="default"
-                        placeholder="Confirm Password"
+                        placeholder={t('confirm_password')}
                         secureTextEntry={true}
                         style={styles.inputStyle}
                         value={values.confirm_password}
@@ -177,9 +286,11 @@ const RegisterForm = () => {
                         placeholderTextColor={Colors.text.secondary}
                       />
                       {touched.confirm_password && errors.confirm_password && (
-                        <Text style={styles.errorText}>
-                          {errors.confirm_password}
-                        </Text>
+                        <TypographyText
+                          content={errors.confirm_password}
+                          type="12_Medium"
+                          color="redRibbon"
+                        />
                       )}
                     </View>
                     <TouchableOpacity
@@ -187,27 +298,45 @@ const RegisterForm = () => {
                       disabled={isSubmitting}
                       onPress={handleSubmit as any}>
                       {isSubmitting ? (
-                        <ActivityIndicator />
+                        <ActivityIndicator style={{padding: 4}} />
                       ) : (
-                        <Text style={styles.buttonText}>Sign up</Text>
+                        <TypographyText
+                          content="Make_account"
+                          type="14_Bold"
+                          color="dark"
+                        />
                       )}
                     </TouchableOpacity>
-                    <Button
-                      onPress={() => setRegisterToggle('contact-info')}
-                      title="Back"
-                    />
-                  </>
+
+                    <TouchableOpacity
+                      style={styles.btn}
+                      onPress={() => {
+                        animateToStep('contact-info');
+                      }}>
+                      <TypographyText
+                        content="back_to_previous"
+                        color="dark"
+                        type="14_Bold"
+                      />
+                    </TouchableOpacity>
+                  </Animated.View>
                 )}
               </View>
             )}
           </Formik>
-          <View style={{gap: 10}}>
-            <Text>you already have an account,</Text>
-            <TouchableWithoutFeedback onPress={LoginNavigation}>
-              <Text style={{textAlign: 'center', ...styles.registerLink}}>
-                Login
-              </Text>
-            </TouchableWithoutFeedback>
+
+          <View style={styles.registerContainer}>
+            <TypographyText
+              content="you already have an account"
+              color="dark"
+              type="12_Medium"
+              styles={styles.text}
+            />
+            <View style={styles.authContainer}>
+              <TouchableOpacity style={styles.btn} onPress={LoginNavigation}>
+                <TypographyText content="login" color="dark" type="14_Bold" />
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </View>
@@ -254,20 +383,23 @@ const styles = StyleSheet.create({
     height: 45,
     width: '100%',
     borderWidth: 1,
-    padding: 10,
+    padding: 12,
     borderRadius: 50,
-    fontFamily: 'Nunito-Medium',
-    fontSize: 16,
-    color: Colors.text.primary,
+    fontFamily: TextStyle['12_Reguler'].fontFamily,
+    fontSize: TextStyle['12_Reguler'].fontSize,
+    color: color.dark,
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: I18nManager.isRTL ? 'right' : 'left',
   },
   authButton: {
     backgroundColor: '#F6E117',
     borderRadius: 100,
     paddingHorizontal: 50,
-    paddingVertical: 14,
-    borderStyle: 'solid',
-    borderWidth: 1,
+    paddingVertical: 10,
     width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   buttonText: {
     color: '#231A16',
@@ -285,10 +417,38 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    width: '100%',
     gap: 10,
   },
   errorText: {
     color: 'red',
     fontSize: 12,
+  },
+  icon: {
+    flexDirection: I18nManager.isRTL ? 'row' : 'row-reverse',
+    alignItems: 'center',
+    width: '80%',
+    gap: 20,
+  },
+  btn: {
+    padding: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: color.lightGrey,
+    borderRadius: 100,
+    width: '100%',
+  },
+  authContainer: {
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  text: {
+    textAlign: 'left',
+  },
+  stepContainer: {
+    width: '100%',
+    gap: 20,
   },
 });

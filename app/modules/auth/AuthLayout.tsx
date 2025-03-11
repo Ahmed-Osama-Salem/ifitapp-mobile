@@ -1,12 +1,14 @@
 import {
+  I18nManager,
   Image,
   SafeAreaView,
   ScrollView,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
 import React, {ReactNode} from 'react';
+import TypographyText from 'Common/DynamicComponents/TypographyText/TypographyText';
+import color from 'Theme/color';
 
 const AuthLayout = ({children}: {children: ReactNode}) => {
   return (
@@ -19,7 +21,14 @@ const AuthLayout = ({children}: {children: ReactNode}) => {
           <SafeAreaView>
             <View style={styles.loginHeader}>
               <Image source={require('../../assets/ifit-logo.png')} />
-              <Text style={styles.loginContent}>i Fit</Text>
+              <TypographyText
+                content="iFit"
+                type="34_Bold"
+                color="dark"
+                styles={
+                  I18nManager.isRTL ? styles.typographyAr : styles.typography
+                }
+              />
             </View>
           </SafeAreaView>
         </View>
@@ -35,7 +44,7 @@ const styles = StyleSheet.create({
   scrollViewContainer: {
     flex: 1,
     flexGrow: 1,
-    backgroundColor: '#F6E117',
+    backgroundColor: color.sunYellow,
   },
   screenContainer: {
     height: '100%',
@@ -44,20 +53,26 @@ const styles = StyleSheet.create({
   },
   loginContainer: {
     paddingHorizontal: 24,
-    height: '30%',
-    backgroundColor: '#F6E117',
+    height: '28%',
+    backgroundColor: color.sunYellow,
   },
   loginHeader: {
-    flexDirection: 'row',
+    flexDirection: I18nManager.isRTL ? 'row' : 'row-reverse',
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: 20,
+    gap: 5,
     marginTop: 10,
   },
   loginContent: {
     fontSize: 42,
     fontFamily: 'Nunito-ExtraBold',
     color: '#000',
+  },
+  typography: {
+    transform: [{translateY: 20}],
+  },
+  typographyAr: {
+    transform: [{translateY: 20}],
   },
 });

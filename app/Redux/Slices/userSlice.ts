@@ -1,5 +1,6 @@
 import {createSlice, PayloadAction, createAsyncThunk} from '@reduxjs/toolkit';
 import AsyncStorageHelper from '../../utils/AsyncStorageHelper';
+import {deleteTokens} from 'utils/keyChain';
 
 export interface User {
   id: string;
@@ -21,7 +22,7 @@ export const removeUser = createAsyncThunk(
   'user/logout',
   async (_, {dispatch, getState}) => {
     await AsyncStorageHelper.removeItem('user');
-    // await deleteTokens();
+    await deleteTokens();
     // (getState() as RootState).favorites.favoriteSlugs = [];
     dispatch(setUser(initialState.user));
   },

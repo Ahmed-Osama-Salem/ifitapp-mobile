@@ -1,10 +1,11 @@
-import axios from 'axios';
 import {appEnvConfig} from '../../utils/Config';
+import {I18nManager} from 'react-native';
+import apiHelper from 'utils/ApiHelper';
 interface RegisterPayload {
   email: string;
   password: string;
-  name: string;
-  phone_number: string;
+  first_name: string;
+  last_name: string;
 }
 interface VerifyOtpPayload {
   otp: string | any;
@@ -15,33 +16,40 @@ interface LoginPayload {
   password: string;
 }
 class AuthService {
-  private BATH_URL = appEnvConfig.BASE_URL;
-  RegisterService = async (payload: RegisterPayload) => {
-    console.log('====================================');
-    console.log('payload::', this.BATH_URL);
-    console.log('====================================');
-    return await axios.post(`${this.BATH_URL}auth/register`, payload);
-  };
+  private BASE_URL = appEnvConfig.BASE_URL;
 
-  VerifyOtpService = async (payload: VerifyOtpPayload) => {
-    console.log('====================================');
-    console.log('payload::', payload);
-    console.log('====================================');
-    return await axios
-      .post(`${this.BATH_URL}verify`, payload)
-      .then(response => {
-        return response;
-      })
-      .catch(error => {
-        return error;
-      });
-  };
+  public async login(email: string, password: string): Promise<LoginPayload> {
+    return apiHelper.POST(
+      this.BASE_URL + '/auth/login/',
+      {
+        email,
+        password,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept-Language': I18nManager.isRTL ? 'ar' : 'en',
+        },
+      },
+    );
+  }
 
-  LoginService = async (payload: LoginPayload) => {
-    console.log('====================================');
-    console.log('payload::', this.BATH_URL);
-    console.log('====================================');
-    return axios.post(`${this.BATH_URL}auth/login`, payload);
-  };
+  public async register(payload: RegisterPayload): Promise<RegisterPayload> {
+    return apiHelper.POST(
+      this.BASE_URL + '/auth/register/',
+      {
+        email: payload.email,
+        password: payload.password,
+        first_name: payload.first_name,
+        last_name: payload.last_name,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept-Language': I18nManager.isRTL ? 'ar' : 'en',
+        },
+      },
+    );
+  }
 }
-export default AuthService;
+export default new AuthService();

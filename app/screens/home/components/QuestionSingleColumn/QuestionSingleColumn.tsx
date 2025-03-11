@@ -1,6 +1,6 @@
 import {I18nManager, StyleSheet, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import TypographyText from '../TypographyText/TypographyText';
+import TypographyText from '../../../../Common/DynamicComponents/TypographyText/TypographyText';
 import {moderateScale} from 'react-native-size-matters';
 import color from 'Theme/color';
 import {convertToDate} from 'utils/ConvertDate';

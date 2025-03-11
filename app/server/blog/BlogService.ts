@@ -31,9 +31,16 @@ class BlogService {
   private BATH_URL = appEnvConfig.BASE_URL;
 
   public async getBlogPosts(): Promise<BlogPromise> {
-    console.log(appEnvConfig);
-
     return apiHelper.GET(this.BATH_URL + '/blog', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept-Language': I18nManager.isRTL ? 'ar' : 'en',
+      },
+    });
+  }
+
+  public async getSinglePost(slug: string): Promise<BlogPromise> {
+    return apiHelper.GET(this.BATH_URL + `/blog/${slug}`, {
       headers: {
         'Content-Type': 'application/json',
         'Accept-Language': I18nManager.isRTL ? 'ar' : 'en',

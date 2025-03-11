@@ -13,11 +13,11 @@ import TypographyText from 'Common/DynamicComponents/TypographyText/TypographyTe
 import color from 'Theme/color';
 import {SearchIcon} from 'modules/SvgIcons';
 import {moderateScale} from 'react-native-size-matters';
-import ArticelSingleColumn from 'Common/DynamicComponents/ArticelSingleColumn/ArticelSingleColumn';
-import QuestionSingleColumn from 'Common/DynamicComponents/QuestionSingleColumn/QuestionSingleColumn';
+import ArticelSingleColumn from 'screens/home/components/ArticelSingleColumn/ArticelSingleColumn';
+import QuestionSingleColumn from 'screens/home/components/QuestionSingleColumn/QuestionSingleColumn';
 import AritcelListCard, {
   categories,
-} from 'Common/DynamicComponents/AritcelListCard/AritcelListCard';
+} from 'screens/home/components/AritcelListCard/AritcelListCard';
 
 const Home = () => {
   const [refreshing, setRefreshing] = useState(false);
@@ -134,6 +134,14 @@ const Home = () => {
             renderItem={() => <AritcelListCard />}
           />
         </View>
+        <View>
+          <TypographyText
+            content="Choose_your_route"
+            color="dark"
+            type="18_Bold"
+            styles={styles.recomendedTitle}
+          />
+        </View>
       </ScrollView>
     </ScreenLayout>
   );
@@ -157,7 +165,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginHorizontal: moderateScale(18),
-    marginVertical: moderateScale(18),
+    marginVertical: moderateScale(12),
   },
   searchInput: {
     width: '84%',

@@ -13,7 +13,6 @@ import {
   HomeIcon,
   ProfileIcon,
 } from '../modules/SvgIcons';
-import AskQuestsion from '../screens/askQuestsion/AskQuestsion';
 import CustomTabBarButton from '../modules/elements/CustomTabBarButton';
 import DrawerNavigator from './DrawerNavigator';
 import TypographyText from 'Common/DynamicComponents/TypographyText/TypographyText';

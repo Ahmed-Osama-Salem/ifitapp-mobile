@@ -10,7 +10,7 @@ import {
 import React from 'react';
 import {moderateScale} from 'react-native-size-matters';
 import color from 'Theme/color';
-import TypographyText from '../TypographyText/TypographyText';
+import TypographyText from '../../../../Common/DynamicComponents/TypographyText/TypographyText';
 import {convertToDate} from 'utils/ConvertDate';
 import {ProfileIcon} from 'modules/SvgIcons';
 

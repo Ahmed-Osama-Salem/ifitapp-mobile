@@ -34,6 +34,10 @@ const LottiLogoView = () => {
   useEffect(() => {
     if (appIsReady) {
       navigation.navigate('HomeApp');
+      navigation.reset({
+        index: 0,
+        routes: [{name: 'HomeApp'}],
+      });
     }
   }, [appIsReady]);
 

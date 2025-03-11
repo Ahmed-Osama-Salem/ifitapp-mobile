@@ -4,12 +4,16 @@ import {useNavigation} from '@react-navigation/native';
 import {BackArrowIcon} from '../SvgIcons';
 import color from 'Theme/color';
 
-const BackArrowButton = () => {
+const BackArrowButton = ({onGoBack}: {onGoBack?: () => void}) => {
   const navigate = useNavigation();
   return (
     <TouchableOpacity
       style={styles.buttonContainer}
       onPress={() => {
+        if (onGoBack) {
+          onGoBack();
+          return;
+        }
         navigate.goBack();
       }}>
       <BackArrowIcon />

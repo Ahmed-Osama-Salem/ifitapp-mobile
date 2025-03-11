@@ -14,29 +14,29 @@ import {Colors, Shadows} from '../../../utils/theme';
 const OTPVerifyForm = () => {
   const [otp, setOTP] = useState('');
   const inputRefs = useRef<any>([]);
-  const authPromise = new AuthService();
+  // const authPromise = new AuthService();
   const navigation: any = useNavigation();
 
   const verifyOtpCode = async () => {
-    return authPromise
-      .VerifyOtpService({otp: otp})
-      .then(response => {
-        console.log('response::', response.data.message);
-        if (response.data) {
-          Toast.show({
-            type: 'success',
-            text1: response.data.message,
-          });
-          setTimeout(() => {
-            navigation.navigate('Login');
-          }, 2000);
-        }
-        return response;
-      })
-      .catch(error => {
-        console.log('error::', error.response.data.message);
-        return error;
-      });
+    // return authPromise
+    //   .VerifyOtpService({otp: otp})
+    //   .then(response => {
+    //     console.log('response::', response.data.message);
+    //     if (response.data) {
+    //       Toast.show({
+    //         type: 'success',
+    //         text1: response.data.message,
+    //       });
+    //       setTimeout(() => {
+    //         navigation.navigate('Login');
+    //       }, 2000);
+    //     }
+    //     return response;
+    //   })
+    //   .catch(error => {
+    //     console.log('error::', error.response.data.message);
+    //     return error;
+    //   });
   };
 
   const handleOTPChange = (index: number, value: number | string) => {

@@ -159,7 +159,7 @@ const CustomDrawerContent = props => {
                 styles={styles.text}
               />
               <TypographyText
-                content={user?.email.slice(0, 10)}
+                content={user?.first_name + ' ' + user?.last_name}
                 color="dark"
                 type="14_Bold"
                 styles={styles.text}

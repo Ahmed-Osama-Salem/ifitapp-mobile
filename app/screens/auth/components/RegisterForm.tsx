@@ -82,6 +82,7 @@ const RegisterForm = () => {
 
   const registerUser = async (values: typeof registerValues) => {
     setIsSubmitting(true);
+
     try {
       await store
         .dispatch(
@@ -122,7 +123,9 @@ const RegisterForm = () => {
             },
           });
           setTimeout(() => {
-            navigation.navigate('otp-verify');
+            navigation.navigate('otp-verify', {
+              email: values.email,
+            });
           }, 1000);
         })
         .catch((error: any) => {

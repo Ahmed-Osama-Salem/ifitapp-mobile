@@ -1,6 +1,6 @@
 // create a style sheet for fonts of app based on the design system and fonts of the app.
 
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 
 const Colors = {
   primary: '#F6E117',
@@ -82,7 +82,7 @@ const Shadows = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5,
+    elevation: Platform.OS === 'ios' ? 5 : 30,
   },
 });
 

@@ -22,9 +22,12 @@ const Settings = () => {
       <ScreenGradientHeader content="Profile" />
       <View style={styles.profileContainer}>
         <Image
-          source={{
-            uri: 'https://img.freepik.com/premium-photo/civil-engineer-digital-avatar-generative-ai_934475-9025.jpg',
-          }}
+          source={
+            {
+              uri: 'https://img.freepik.com/premium-photo/civil-engineer-digital-avatar-generative-ai_934475-9025.jpg',
+            }
+            // require('../../assets/avatar.png')
+          }
           style={styles.profileImgStyle}
         />
         <Text style={Fonts.title}>{user?.name}</Text>

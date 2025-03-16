@@ -1,42 +1,71 @@
 import {
   StyleSheet,
-  Text,
   View,
   TextInput,
   TouchableOpacity,
+  I18nManager,
 } from 'react-native';
 import React, {useRef, useState} from 'react';
-import AuthService from '../../../server/auth/AuthService';
 import Toast from 'react-native-toast-message';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {Colors, Shadows} from '../../../utils/theme';
+import {allowFontScaling} from 'Common/DynamicComponents/TypographyText/Typography.system';
+import TypographyText from 'Common/DynamicComponents/TypographyText/TypographyText';
+import CountdownTimer from './CountdownTimer';
+import {store} from 'Redux/Store';
+import {verifyOtpThunk} from 'Redux/Slices/Auth/RegisterSlice';
 
 const OTPVerifyForm = () => {
   const [otp, setOTP] = useState('');
   const inputRefs = useRef<any>([]);
-  // const authPromise = new AuthService();
+  const [seconds, setSeconds] = useState(60);
+  const route = useRoute();
+
   const navigation: any = useNavigation();
 
   const verifyOtpCode = async () => {
-    // return authPromise
-    //   .VerifyOtpService({otp: otp})
-    //   .then(response => {
-    //     console.log('response::', response.data.message);
-    //     if (response.data) {
-    //       Toast.show({
-    //         type: 'success',
-    //         text1: response.data.message,
-    //       });
-    //       setTimeout(() => {
-    //         navigation.navigate('Login');
-    //       }, 2000);
-    //     }
-    //     return response;
-    //   })
-    //   .catch(error => {
-    //     console.log('error::', error.response.data.message);
-    //     return error;
-    //   });
+    try {
+      console.log({otp: otp, email: route.params?.email});
+
+      await store
+        .dispatch(verifyOtpThunk({otp: otp, email: route.params?.email}))
+        .unwrap()
+        .then((res: any) => {
+          console.log('res', res);
+          if (!res.data) {
+            Object.keys(res).forEach(field => {
+              res[field].forEach((message: string) => {
+                return Toast.show({
+                  type: 'ifit',
+                  visibilityTime: 4000,
+                  props: {
+                    variant: 'error',
+                    message: message,
+                  },
+                });
+              });
+            });
+
+            return;
+          }
+
+          Toast.show({
+            type: 'ifit',
+            visibilityTime: 4000,
+            props: {
+              variant: 'success',
+              message: I18nManager.isRTL
+                ? 'تم التحقق بنجاح'
+                : 'Verified Successfully',
+            },
+          });
+          setTimeout(() => {
+            navigation.navigate('Login');
+          }, 1500);
+        });
+    } catch (err) {
+      console.log('err', err);
+    }
   };
 
   const handleOTPChange = (index: number, value: number | string) => {
@@ -63,41 +92,62 @@ const OTPVerifyForm = () => {
 
   return (
     <View style={styles.otpScreen}>
-      <Text style={styles.formHeader}>Verify your account</Text>
+      <TypographyText
+        type="20_Bold"
+        content="Verify your account"
+        color="dark"
+      />
       <View style={styles.otpContainer}>
         {[...Array(6)].map((_, index) => (
           <TextInput
+            allowFontScaling={allowFontScaling}
             key={index}
             style={[
               styles.otpInput,
-              focusedField === index && styles.focusedInput, // Apply focused style conditionally
+              focusedField === index && styles.focusedInput,
             ]}
             keyboardType="numeric"
             maxLength={1}
-            onChangeText={value => handleOTPChange(index, value)}
-            onFocus={() => handleFieldFocus(index)} // Handle field focus
-            onBlur={handleFieldBlur} // Handle field blur
+            onChangeText={value => {
+              handleOTPChange(index, value);
+            }}
+            onFocus={() => handleFieldFocus(index)}
+            onBlur={handleFieldBlur}
             ref={ref => (inputRefs.current[index] = ref)}
-            returnKeyType={index === 5 ? 'done' : 'next'} // Set return key type
+            returnKeyType={index === 5 ? 'done' : 'next'}
             onSubmitEditing={() => {
               if (index === 5) {
-                // Handle submission
               } else {
-                inputRefs.current[index + 1].focus(); // Move focus to the next field
+                inputRefs?.current[index + 1]?.focus();
               }
             }}
             onKeyPress={({nativeEvent}) => {
-              if (nativeEvent.key === 'Backspace' && !otp[index] && index > 0) {
-                inputRefs.current[index - 1].focus(); // Move focus to the previous field
+              if (nativeEvent.key === 'Backspace' && index >= 0) {
+                index > 0 && inputRefs?.current[index - 1]?.focus();
               }
             }}
+            autoFocus={index === 0}
           />
         ))}
       </View>
-      <Text style={styles.footerText}>Check your account for the code</Text>
+      <TypographyText
+        type="12_Medium"
+        content="Check your email for the code"
+        color="ifitGrey"
+      />
+      <View style={[{flexDirection: 'row'}, styles.countDownTimer]}>
+        <CountdownTimer seconds={seconds} setSeconds={setSeconds} />
+      </View>
       <TouchableOpacity style={styles.authButton} onPress={verifyOtpCode}>
-        <Text style={styles.buttonText}>Verify</Text>
+        <TypographyText type="16_Bold" content="Verify_account" color="dark" />
       </TouchableOpacity>
+      {seconds === 0 && (
+        <TouchableOpacity
+          style={{marginTop: 20}}
+          onPress={() => navigation.navigate('Login')}>
+          <TypographyText type="16_Medium" content="Retry" color="ifitGrey" />
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
@@ -108,8 +158,9 @@ const styles = StyleSheet.create({
   otpScreen: {
     flexDirection: 'column',
     justifyContent: 'flex-start',
+    direction: 'ltr',
     alignItems: 'center',
-    paddingVertical: 20,
+    paddingVertical: 35,
     paddingHorizontal: 20,
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
@@ -118,6 +169,7 @@ const styles = StyleSheet.create({
     height: '100%',
     ...Shadows.container,
   },
+  countDownTimer: {justifyContent: 'space-between'},
   otpContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -141,8 +193,11 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     paddingHorizontal: 50,
     paddingVertical: 14,
-    borderStyle: 'solid',
-    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
+    // borderStyle: 'solid',
+    // borderWidth: 1,
     width: '100%',
   },
   buttonText: {

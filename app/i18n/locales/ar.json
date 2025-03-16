@@ -89,6 +89,10 @@
     "Forget my password ?": "نسيت كلمة المرور ؟",
     "Continue": "متابعة",
     "you already have an account": "لديك حساب بالفعل؟",
-    "back_to_previous": "العودة إلى السابق"
+    "back_to_previous": "العودة إلى السابق",
+    "Verify your account": "تحقق من حسابك",
+    "Check your email for the code": "تحقق من بريدك الإلكتروني للحصول على الرمز",
+    "Verify_account": "تحقق من الحساب",
+    "Retry": "اعادة المحاولة"
   }
 }

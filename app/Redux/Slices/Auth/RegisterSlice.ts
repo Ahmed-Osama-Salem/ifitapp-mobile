@@ -5,12 +5,16 @@ interface AuthState {
   user: any | null;
   loading: boolean;
   error: string | null;
+  isVerifyOtp: boolean;
+  isError: boolean;
 }
 
 const initialState: AuthState = {
   user: null,
   loading: false,
   error: null,
+  isVerifyOtp: false,
+  isError: false,
 };
 
 export const registerUserThunk = createAsyncThunk(
@@ -42,6 +46,22 @@ export const registerUserThunk = createAsyncThunk(
   },
 );
 
+export const verifyOtpThunk = createAsyncThunk(
+  'auth/verifyOtp',
+  async ({otp, email}: {otp: string; email: string}) => {
+    try {
+      const payload = {
+        otp,
+        email,
+      };
+      const response = await AuthService.VerifyOtpService(payload);
+      return response;
+    } catch (error: any) {
+      return error;
+    }
+  },
+);
+
 const registerSlice = createSlice({
   name: 'register',
   initialState,
@@ -56,9 +76,23 @@ const registerSlice = createSlice({
         state.loading = false;
         // state.user = action.payload;
       })
-      .addCase(registerUserThunk.rejected, (state, action) => {
+      .addCase(registerUserThunk.rejected, state => {
         state.loading = false;
-        state.error = action.error.message || 'Login failed';
+        state.error = null;
+      });
+
+    builder
+      .addCase(verifyOtpThunk.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(verifyOtpThunk.fulfilled, state => {
+        state.loading = false;
+        state.isVerifyOtp = true;
+      })
+      .addCase(verifyOtpThunk.rejected, state => {
+        state.loading = false;
+        state.error = null;
       });
   },
 });

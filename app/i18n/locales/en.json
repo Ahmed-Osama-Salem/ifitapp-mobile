@@ -91,6 +91,10 @@
     "Forget my password ?": "Forget my password ?",
     "Continue": "Continue",
     "you already have an account": "you already have an account",
-    "back_to_previous": "Back to previous"
+    "back_to_previous": "Back to previous",
+    "Verify your account": "Verify your account",
+    "Check your email for the code": "Check your email for the code",
+    "Verify_account": "Verify account",
+    "Retry": "Retry"
   }
 }

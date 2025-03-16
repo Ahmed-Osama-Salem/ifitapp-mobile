@@ -23,6 +23,7 @@ const ArticelSingleColumn = () => {
             uri: 'https://www.shutterstock.com/image-photo/surveyor-equipment-telescope-construction-site-600nw-1247187910.jpg',
           }}
           style={styles.imageStyle}
+          borderRadius={12}
         />
       </View>
       <View style={styles.titleContainer}>
@@ -64,6 +65,7 @@ const styles = StyleSheet.create({
   container: {
     height: moderateScale(190),
     width: moderateScale(200),
+
     borderWidth: 1,
     borderColor: color.lightGrey2,
     borderRadius: 12,

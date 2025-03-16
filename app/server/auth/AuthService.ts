@@ -9,6 +9,7 @@ interface RegisterPayload {
 }
 interface VerifyOtpPayload {
   otp: string | any;
+  email: string;
 }
 
 interface LoginPayload {
@@ -42,6 +43,24 @@ class AuthService {
         password: payload.password,
         first_name: payload.first_name,
         last_name: payload.last_name,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept-Language': I18nManager.isRTL ? 'ar' : 'en',
+        },
+      },
+    );
+  }
+
+  public async VerifyOtpService(
+    payload: VerifyOtpPayload,
+  ): Promise<VerifyOtpPayload> {
+    return apiHelper.POST(
+      this.BASE_URL + '/auth/verify/',
+      {
+        otp_code: payload.otp,
+        email: payload.email,
       },
       {
         headers: {

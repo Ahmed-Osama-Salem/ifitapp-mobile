@@ -1,12 +1,16 @@
-import axios from 'axios';
 import {appEnvConfig} from '../../utils/Config';
+import apiHelper from 'utils/ApiHelper';
 
 class FAQService {
   private BATH_URL = appEnvConfig.BASE_URL;
 
   public async getFAQs(): Promise<any> {
-    return await axios.get(this.BATH_URL + 'question');
+    return apiHelper.GET(this.BATH_URL + '/questions', {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
   }
 }
 
-export default FAQService;
+export default new FAQService();

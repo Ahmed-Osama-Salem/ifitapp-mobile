@@ -1,9 +1,10 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React from 'react';
 import {DotFlagIcon} from '../../../modules/SvgIcons';
+import TypographyText from 'Common/DynamicComponents/TypographyText/TypographyText';
 
 interface FAQFlagProps {
-  status: 'Answered' | 'Unanswered' | 'InReview';
+  status: 'Answered' | 'Unanswered' | 'pending';
 }
 
 const FAQFlag = (props: FAQFlagProps) => {
@@ -11,19 +12,19 @@ const FAQFlag = (props: FAQFlagProps) => {
     Answered: (
       <>
         <DotFlagIcon colorStroke="green" />
-        <Text>Answered</Text>
+        <TypographyText content="Answered" type="12_Bold" color="ifitGrey" />
       </>
     ),
     Unanswered: (
       <>
         <DotFlagIcon colorStroke="red" />
-        <Text>Answered</Text>
+        <TypographyText content="Unanswered" type="12_Bold" color="ifitGrey" />
       </>
     ),
-    InReview: (
+    pending: (
       <>
         <DotFlagIcon colorStroke="blue" />
-        <Text>Answered</Text>
+        <TypographyText content="Pending" type="12_Bold" color="ifitGrey" />
       </>
     ),
   };
